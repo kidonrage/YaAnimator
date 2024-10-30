@@ -21,11 +21,19 @@ struct Action {
     }
     
     func addPoint(_ pointToAdd: CGPoint) {
-        print("Adding \(pointToAdd) next to \(path.currentPoint)")
+        // TODO: Smoothing
+        
         path.addLine(to: pointToAdd)
     }
     
     func createBezierRenderingBox() -> CGRect {
-        return path.cgPath.boundingBox
+        // TODO: Tune
+        
+        var boundingBox = path.cgPath.boundingBox
+        boundingBox.origin.x -= (15 / 2)
+        boundingBox.origin.y -= (15 / 2)
+        boundingBox.size.width += 15
+        boundingBox.size.height += 15
+        return boundingBox
     }
 }

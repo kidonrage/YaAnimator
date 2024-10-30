@@ -42,14 +42,6 @@ class ViewController: UIViewController {
         return sv
     }()
     
-//    private var actions: []
-    
-//    private var selectedTool: Tool = .pen {
-//        didSet {
-//            canvasView.selectedTool = selectedTool
-//        }
-//    }
-    
     private weak var delegate: ToolsPanelDelegate? // move to comp
     
     override func viewDidLayoutSubviews() {
@@ -64,6 +56,8 @@ class ViewController: UIViewController {
         view.addSubview(canvasView)
         delegate = canvasView // move to comp
         
+        canvasView.delegate = self
+        
         view.addSubview(toolsStackView)
         
         penButton.addTarget(self, action: #selector(handlePenSelected), for: .touchUpInside)
@@ -74,6 +68,8 @@ class ViewController: UIViewController {
         
         toolsStackView.backgroundColor = .black
         
+        updateUndoRedoButtons()
+        
         NSLayoutConstraint.activate([
             toolsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
@@ -82,12 +78,19 @@ class ViewController: UIViewController {
         ])
     }
     
+    private func updateUndoRedoButtons() {
+        undoButton.isEnabled = delegate?.isUndoButtonEnabled ?? false
+        redoButton.isEnabled = delegate?.isRedoButtonEnabled ?? false
+    }
+    
     @objc private func undo() {
         delegate?.undo()
+        updateUndoRedoButtons()
     }
     
     @objc private func redo() {
         delegate?.redo()
+        updateUndoRedoButtons()
     }
     
     @objc private func handlePenSelected() {
@@ -102,7 +105,17 @@ class ViewController: UIViewController {
 
 protocol ToolsPanelDelegate: AnyObject {
     
+    var isUndoButtonEnabled: Bool { get }
+    var isRedoButtonEnabled: Bool { get }
+    
     func undo()
     func redo()
     func didSelectTool(_ tool: Tool)
+}
+
+extension ViewController: FrameCanvasViewDelegate {
+    
+    func didUpdateDrawing() {
+        updateUndoRedoButtons()
+    }
 }

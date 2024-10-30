@@ -9,23 +9,19 @@ import UIKit
 
 final class FrameCanvasView: UIView {
     
-    private let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "canvasBackground")
-        return iv
-    }()
-    private let panRecognizer = UIPanGestureRecognizer()
+    private let backgroundImage: UIImage? = UIImage(named: "canvasBackground")
+    private var image: UIImage?
     
-    private var actionsHistory: [Action] = []
-    private var actionsCanceled: [Action] = []
-    
-    private var actionInProgress: Action?
-    
+    private var selectedTool: Tool = .pen
     private var lastPoint: CGPoint?
     
-    var selectedTool: Tool = .pen // todo: remove
-    
+    private var actionInProgress: Action?
+    private var actionsHistory: [Action] = []
+    private var actionsCanceled: [Action] = []
+
     private let painter = Painter()
+    
+    weak var delegate: FrameCanvasViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,13 +33,39 @@ final class FrameCanvasView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         
-        imageView.frame = bounds
+        print("[TEST] draw", rect)
+        
+        backgroundImage?.draw(in: rect)
+        
+        image?.draw(at: CGPoint.zero)
+        
+        if let actionInProgress {
+            painter.draw(action: actionInProgress)
+        }
     }
     
+    // MARK: - Drawing
+    
+    private func updateImage() {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
+        
+        for action in actionsHistory {
+            painter.draw(action: action)
+        }
+        
+        image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        delegate?.didUpdateDrawing()
+    }
+    
+    // MARK: - Gestures
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        print("[TEST] began")
         guard let touch = touches.first else { return }
         let startingPoint = touch.location(in: self)
         actionInProgress = Action(tool: selectedTool, startingPoint: startingPoint)
@@ -60,43 +82,54 @@ final class FrameCanvasView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        print("[TEST] ended")
         guard let actionInProgress else { return }
         
         touchesMoved(touches, with: event)
         
         actionsHistory.append(actionInProgress)
+        actionsCanceled.removeAll()
         
-        self.imageView.image = painter.draw(actions: actionsHistory, canvasSize: imageView.frame.size)
+        updateImage()
+        
         self.actionInProgress = nil
         
         setNeedsDisplay()
     }
     
     private func setup() {
-        addSubview(imageView)
     }
 }
 
 // MARK: - ToolsPanelDelegate
 extension FrameCanvasView: ToolsPanelDelegate {
     
+    var isUndoButtonEnabled: Bool {
+        return !actionsHistory.isEmpty
+    }
+    
+    var isRedoButtonEnabled: Bool {
+        return !actionsCanceled.isEmpty
+    }
+    
     func undo() {
         guard !actionsHistory.isEmpty else { return }
         let actionToCancel = actionsHistory.removeLast()
-        
-        // todo: ref
-        self.imageView.image = painter.draw(actions: actionsHistory, canvasSize: imageView.frame.size)
-        
         actionsCanceled.append(actionToCancel)
+        
+        updateImage()
+        
+        setNeedsDisplay()
     }
     
     func redo() {
         guard !actionsCanceled.isEmpty else { return }
         let canceledAction = actionsCanceled.removeLast()
-        
-        // todo: ref
         actionsHistory.append(canceledAction)
-        self.imageView.image = painter.draw(actions: actionsHistory, canvasSize: imageView.frame.size)
+        
+        updateImage()
+        
+        setNeedsDisplay()
     }
     
     func didSelectTool(_ tool: Tool) {

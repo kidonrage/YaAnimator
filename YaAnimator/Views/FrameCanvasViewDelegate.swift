@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+protocol FrameCanvasViewDelegate: AnyObject {
+    
+    func didUpdateDrawing()
+}
