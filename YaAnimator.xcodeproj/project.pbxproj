@@ -13,6 +13,10 @@
 		C6401AA52CD153F000CF666F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6401AA32CD153F000CF666F /* Main.storyboard */; };
 		C6401AA72CD153F100CF666F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6401AA62CD153F100CF666F /* Assets.xcassets */; };
 		C6401AAA2CD153F100CF666F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6401AA82CD153F100CF666F /* LaunchScreen.storyboard */; };
+		C6401AB22CD1550900CF666F /* FrameCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB12CD1550900CF666F /* FrameCanvasView.swift */; };
+		C6401AB42CD1552B00CF666F /* Painter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB32CD1552B00CF666F /* Painter.swift */; };
+		C6401AB62CD17E3100CF666F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB52CD17E3100CF666F /* Action.swift */; };
+		C6401AB82CD17E3800CF666F /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB72CD17E3800CF666F /* Tool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		C6401AA62CD153F100CF666F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6401AA92CD153F100CF666F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C6401AAB2CD153F100CF666F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6401AB12CD1550900CF666F /* FrameCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCanvasView.swift; sourceTree = "<group>"; };
+		C6401AB32CD1552B00CF666F /* Painter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Painter.swift; sourceTree = "<group>"; };
+		C6401AB52CD17E3100CF666F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		C6401AB72CD17E3800CF666F /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +64,43 @@
 		C6401A9C2CD153F000CF666F /* YaAnimator */ = {
 			isa = PBXGroup;
 			children = (
+				C6401AAB2CD153F100CF666F /* Info.plist */,
 				C6401A9D2CD153F000CF666F /* AppDelegate.swift */,
 				C6401A9F2CD153F000CF666F /* SceneDelegate.swift */,
 				C6401AA12CD153F000CF666F /* ViewController.swift */,
-				C6401AA32CD153F000CF666F /* Main.storyboard */,
 				C6401AA62CD153F100CF666F /* Assets.xcassets */,
 				C6401AA82CD153F100CF666F /* LaunchScreen.storyboard */,
-				C6401AAB2CD153F100CF666F /* Info.plist */,
+				C6401AA32CD153F000CF666F /* Main.storyboard */,
+				C6401AB92CD17E4000CF666F /* Models */,
+				C6401ABB2CD17E5200CF666F /* Tools */,
+				C6401ABA2CD17E4400CF666F /* Views */,
 			);
 			path = YaAnimator;
+			sourceTree = "<group>";
+		};
+		C6401AB92CD17E4000CF666F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C6401AB72CD17E3800CF666F /* Tool.swift */,
+				C6401AB52CD17E3100CF666F /* Action.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C6401ABA2CD17E4400CF666F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C6401AB12CD1550900CF666F /* FrameCanvasView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C6401ABB2CD17E5200CF666F /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				C6401AB32CD1552B00CF666F /* Painter.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,7 +175,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6401AA22CD153F000CF666F /* ViewController.swift in Sources */,
+				C6401AB62CD17E3100CF666F /* Action.swift in Sources */,
+				C6401AB42CD1552B00CF666F /* Painter.swift in Sources */,
+				C6401AB82CD17E3800CF666F /* Tool.swift in Sources */,
 				C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */,
+				C6401AB22CD1550900CF666F /* FrameCanvasView.swift in Sources */,
 				C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
