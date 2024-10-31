@@ -25,8 +25,25 @@ class ViewController: UIViewController {
         button.setImage(UIImage(named: "addFileIcon"), for: .normal)
         return button
     }()
+    private let deleteFrameButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "binIcon"), for: .normal)
+        return button
+    }()
+    private let playButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "playIcon"), for: .normal)
+        return button
+    }()
+    private let pauseButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "pauseIcon"), for: .normal)
+        return button
+    }()
     private lazy var topToolsStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [UIView(), layersButton, addFrameButton, UIView()])
+        let sv = UIStackView(arrangedSubviews: [
+            undoButton, redoButton, UIView(), deleteFrameButton, addFrameButton, layersButton, UIView(), pauseButton, playButton
+        ])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
         sv.alignment = .center
@@ -55,26 +72,30 @@ class ViewController: UIViewController {
         return button
     }()
     private lazy var toolsStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [undoButton, redoButton, UIView(), penButton, eraserButton])
+        let sv = UIStackView(arrangedSubviews: [UIView(), penButton, eraserButton, UIView()])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
         sv.alignment = .center
+        sv.distribution = .equalCentering
         sv.spacing = 8
         return sv
     }()
     
-    private let framesManager = FramesManager()
+    private let framesManager = FramesManager.shared
+    
+    private var animationDemoTimer: Timer?
     
     private weak var delegate: ToolsPanelDelegate? // move to comp
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        framesManager.delegate = self
+        
         view.backgroundColor = .black // TODO: Theme?
         
         view.addSubview(canvasView)
         delegate = canvasView // move to comp
-        framesManager.frames.append(.init())
         canvasView.configure(currentFrame: framesManager.frames[0], previousFrame: nil)
         
         canvasView.delegate = self
@@ -82,8 +103,12 @@ class ViewController: UIViewController {
         view.addSubview(topToolsStackView)
         topToolsStackView.backgroundColor = .black
         
+        deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
         layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
         addFrameButton.addTarget(self, action: #selector(handleAddFrameTapped), for: .touchUpInside)
+        
+        playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
+        pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
         
         view.addSubview(toolsStackView)
         toolsStackView.backgroundColor = .black
@@ -119,6 +144,28 @@ class ViewController: UIViewController {
         redoButton.isEnabled = delegate?.isRedoButtonEnabled ?? false
     }
     
+    @objc private func play() {
+        animationDemoTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] timer in
+            guard
+                let self,
+                let currentFrameIndex = self.framesManager.frames.firstIndex(where: { $0.id == self.framesManager.selectedFrame.id })
+            else { return }
+            
+            let nextFrameIndex = currentFrameIndex < self.framesManager.frames.count - 1
+                ? currentFrameIndex + 1
+                : 0
+            let nextFrame = self.framesManager.frames[nextFrameIndex]
+            
+            self.framesManager.selectFrame(frame: nextFrame)
+            
+//            self.canvasView.configure(currentFrame: nextFrame, previousFrame: nil)
+        })
+    }
+    
+    @objc private func pause() {
+        animationDemoTimer?.invalidate()
+    }
+    
     @objc private func handleLayersTapped(_ sender: UIButton) {
         let popoverViewController = FramesTableViewController(framesManager: framesManager)
         popoverViewController.delegate = self
@@ -137,6 +184,10 @@ class ViewController: UIViewController {
         popoverPresentationController?.delegate = self
         
         self.present(popoverViewController, animated: true)
+    }
+    
+    @objc private func deleteFrameTapped() {
+        framesManager.deleteCurrentFrame()
     }
     
     @objc private func undo() {
@@ -158,7 +209,15 @@ class ViewController: UIViewController {
     }
     
     @objc private func handleAddFrameTapped() {
-        framesManager.frames.append(Frame())
+        framesManager.addFrame()
+    }
+    
+    private func updateCanvas(withSelectedFrame frame: Frame) {
+        let index = framesManager.frames.firstIndex(where: { $0.id == frame.id }) ?? -1 // todo: Ref
+        canvasView.configure(
+            currentFrame: frame,
+            previousFrame: index > 0 ? framesManager.frames[index - 1] : nil
+        )
     }
 }
 
@@ -189,12 +248,14 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
 extension ViewController: FramesTableViewControllerDelegate {
     
     func didSelectFrame(frame: Frame) {
-        let index = framesManager.frames.firstIndex(where: { $0.id == frame.id }) ?? -1 // todo: Ref
-        canvasView.configure(
-            currentFrame: frame,
-            previousFrame: index > 0 ? framesManager.frames[index - 1] : nil
-        )
-        
+        self.framesManager.selectFrame(frame: frame)
         dismiss(animated: true)
+    }
+}
+
+extension ViewController: FramesManagerDelegate {
+    
+    func didUpdateSelectedFrame(frame: Frame) {
+        updateCanvas(withSelectedFrame: frame)
     }
 }
