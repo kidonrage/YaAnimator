@@ -9,7 +9,7 @@ import UIKit
 
 final class FrameCanvasView: UIView {
     
-    private let backgroundImage: UIImage? = UIImage(named: "canvasBackground")
+    private let backgroundImage: UIImage? = nil
     private var previousFrameImage: UIImage?
     private var image: UIImage?
     
@@ -41,6 +41,8 @@ final class FrameCanvasView: UIView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
+        guard let ctx = UIGraphicsGetCurrentContext() else { return }
+        
         print("[TEST] draw", rect)
         
         backgroundImage?.draw(in: rect)
@@ -50,7 +52,7 @@ final class FrameCanvasView: UIView {
         image?.draw(in: rect)
         
         if let actionInProgress {
-            painter.draw(action: actionInProgress)
+            painter.draw(action: actionInProgress, context: ctx)
         }
     }
     
@@ -86,8 +88,10 @@ final class FrameCanvasView: UIView {
     private func updateImage() {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
         
+        guard let ctx = UIGraphicsGetCurrentContext() else { return }
+        
         for action in actionsHistory {
-            painter.draw(action: action)
+            painter.draw(action: action, context: ctx)
         }
         
         image = UIGraphicsGetImageFromCurrentImageContext()
@@ -138,6 +142,7 @@ final class FrameCanvasView: UIView {
     }
     
     private func setup() {
+        self.backgroundColor = .clear
     }
 }
 

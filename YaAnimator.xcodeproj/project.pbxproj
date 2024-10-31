@@ -75,13 +75,12 @@
 				C6401AAB2CD153F100CF666F /* Info.plist */,
 				C6401A9D2CD153F000CF666F /* AppDelegate.swift */,
 				C6401A9F2CD153F000CF666F /* SceneDelegate.swift */,
-				C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */,
-				C6401AA12CD153F000CF666F /* ViewController.swift */,
 				C6401AA62CD153F100CF666F /* Assets.xcassets */,
 				C6401AA82CD153F100CF666F /* LaunchScreen.storyboard */,
 				C6401AA32CD153F000CF666F /* Main.storyboard */,
 				C6401AB92CD17E4000CF666F /* Models */,
 				C6401ABB2CD17E5200CF666F /* Tools */,
+				C6C299572CD42BEB00B10BBC /* ViewControllers */,
 				C6401ABA2CD17E4400CF666F /* Views */,
 			);
 			path = YaAnimator;
@@ -113,6 +112,15 @@
 				C61D7B092CD2CD7800A79DAD /* FramesManager.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		C6C299572CD42BEB00B10BBC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */,
+				C6401AA12CD153F000CF666F /* ViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

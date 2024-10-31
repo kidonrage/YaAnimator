@@ -11,9 +11,7 @@ struct Painter {
     
     private let brushSize: CGFloat = 15
     
-    func draw(action: Action) {
-        guard let ctx = UIGraphicsGetCurrentContext() else { return }
-        
+    func draw(action: Action, context ctx: CGContext) {
         let lineWidth: CGFloat = brushSize
         
         // todo: refactor

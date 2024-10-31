@@ -80,6 +80,11 @@ class ViewController: UIViewController {
         sv.spacing = 8
         return sv
     }()
+    private let backgroundPaperImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "canvasBackground"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     private let framesManager = FramesManager.shared
     
@@ -93,6 +98,8 @@ class ViewController: UIViewController {
         framesManager.delegate = self
         
         view.backgroundColor = .black // TODO: Theme?
+        
+        view.addSubview(backgroundPaperImageView)
         
         view.addSubview(canvasView)
         delegate = canvasView // move to comp
@@ -131,6 +138,11 @@ class ViewController: UIViewController {
             canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             canvasView.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor),
+            
+            backgroundPaperImageView.topAnchor.constraint(equalTo: canvasView.topAnchor),
+            backgroundPaperImageView.trailingAnchor.constraint(equalTo: canvasView.trailingAnchor),
+            backgroundPaperImageView.bottomAnchor.constraint(equalTo: canvasView.bottomAnchor),
+            backgroundPaperImageView.leadingAnchor.constraint(equalTo: canvasView.leadingAnchor),
             
             toolsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
