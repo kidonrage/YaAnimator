@@ -10,7 +10,10 @@ import UIKit
 final class FrameCanvasView: UIView {
     
     private let backgroundImage: UIImage? = UIImage(named: "canvasBackground")
+    private var previousFrameImage: UIImage?
     private var image: UIImage?
+    
+    private var currentFrame: Frame
     
     private var selectedTool: Tool = .pen
     private var lastPoint: CGPoint?
@@ -23,8 +26,10 @@ final class FrameCanvasView: UIView {
     
     weak var delegate: FrameCanvasViewDelegate?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(initialFrame: Frame) {
+        self.currentFrame = initialFrame
+        
+        super.init(frame: .zero)
         
         setup()
     }
@@ -40,11 +45,40 @@ final class FrameCanvasView: UIView {
         
         backgroundImage?.draw(in: rect)
         
-        image?.draw(at: CGPoint.zero)
+        previousFrameImage?.draw(in: rect, blendMode: .normal, alpha: 0.5)
+        
+        image?.draw(in: rect)
         
         if let actionInProgress {
             painter.draw(action: actionInProgress)
         }
+    }
+    
+    // MARK: - Configuring
+    func configure(currentFrame: Frame, previousFrame: Frame?) {
+        if let currentFrameImageData = try? Data(contentsOf: currentFrame.frameSource) { 
+            self.image = UIImage(data: currentFrameImageData)
+        } else {
+            self.image = nil
+        }
+        
+        if let previousFrame, let prevFrameImageData = try? Data(contentsOf: previousFrame.frameSource) {
+            self.previousFrameImage = UIImage(data: prevFrameImageData)
+        } else {
+            self.previousFrameImage = nil
+        }
+        
+        lastPoint = nil
+        
+        actionInProgress = nil
+        actionsHistory = []
+        actionsCanceled = []
+        
+        self.currentFrame = currentFrame
+        
+        setNeedsDisplay()
+        
+        delegate?.didUpdateDrawing()
     }
     
     // MARK: - Drawing
@@ -60,6 +94,12 @@ final class FrameCanvasView: UIView {
         UIGraphicsEndImageContext()
         
         delegate?.didUpdateDrawing()
+        
+        do {
+            try image?.pngData()?.write(to: currentFrame.frameSource)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
     
     // MARK: - Gestures

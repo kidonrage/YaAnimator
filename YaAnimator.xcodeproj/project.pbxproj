@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C61D7B062CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */; };
+		C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */; };
+		C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B092CD2CD7800A79DAD /* FramesManager.swift */; };
 		C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9D2CD153F000CF666F /* AppDelegate.swift */; };
 		C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9F2CD153F000CF666F /* SceneDelegate.swift */; };
 		C6401AA22CD153F000CF666F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AA12CD153F000CF666F /* ViewController.swift */; };
@@ -18,10 +20,13 @@
 		C6401AB42CD1552B00CF666F /* Painter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB32CD1552B00CF666F /* Painter.swift */; };
 		C6401AB62CD17E3100CF666F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB52CD17E3100CF666F /* Action.swift */; };
 		C6401AB82CD17E3800CF666F /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AB72CD17E3800CF666F /* Tool.swift */; };
+		C66E91152CD3F8FD00B48990 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E91142CD3F8FD00B48990 /* Frame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCanvasViewDelegate.swift; sourceTree = "<group>"; };
+		C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesTableViewController.swift; sourceTree = "<group>"; };
+		C61D7B092CD2CD7800A79DAD /* FramesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesManager.swift; sourceTree = "<group>"; };
 		C6401A9A2CD153F000CF666F /* YaAnimator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YaAnimator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6401A9D2CD153F000CF666F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6401A9F2CD153F000CF666F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +39,7 @@
 		C6401AB32CD1552B00CF666F /* Painter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Painter.swift; sourceTree = "<group>"; };
 		C6401AB52CD17E3100CF666F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		C6401AB72CD17E3800CF666F /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		C66E91142CD3F8FD00B48990 /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +75,7 @@
 				C6401AAB2CD153F100CF666F /* Info.plist */,
 				C6401A9D2CD153F000CF666F /* AppDelegate.swift */,
 				C6401A9F2CD153F000CF666F /* SceneDelegate.swift */,
+				C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */,
 				C6401AA12CD153F000CF666F /* ViewController.swift */,
 				C6401AA62CD153F100CF666F /* Assets.xcassets */,
 				C6401AA82CD153F100CF666F /* LaunchScreen.storyboard */,
@@ -85,6 +92,7 @@
 			children = (
 				C6401AB72CD17E3800CF666F /* Tool.swift */,
 				C6401AB52CD17E3100CF666F /* Action.swift */,
+				C66E91142CD3F8FD00B48990 /* Frame.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -102,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				C6401AB32CD1552B00CF666F /* Painter.swift */,
+				C61D7B092CD2CD7800A79DAD /* FramesManager.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -182,9 +191,12 @@
 				C6401AB42CD1552B00CF666F /* Painter.swift in Sources */,
 				C6401AB82CD17E3800CF666F /* Tool.swift in Sources */,
 				C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */,
+				C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */,
 				C61D7B062CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift in Sources */,
 				C6401AB22CD1550900CF666F /* FrameCanvasView.swift in Sources */,
 				C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */,
+				C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */,
+				C66E91152CD3F8FD00B48990 /* Frame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

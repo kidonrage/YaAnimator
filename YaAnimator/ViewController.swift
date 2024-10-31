@@ -9,8 +9,29 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private let canvasView: FrameCanvasView = {
-        return FrameCanvasView()
+    private lazy var canvasView: FrameCanvasView = {
+        let view = FrameCanvasView(initialFrame: framesManager.frames[0])
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let layersButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "layersIcon"), for: .normal)
+        return button
+    }()
+    private let addFrameButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "addFileIcon"), for: .normal)
+        return button
+    }()
+    private lazy var topToolsStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [UIView(), layersButton, addFrameButton, UIView()])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 8
+        return sv
     }()
     
     private let penButton: UIButton = {
@@ -42,23 +63,30 @@ class ViewController: UIViewController {
         return sv
     }()
     
-    private weak var delegate: ToolsPanelDelegate? // move to comp
+    private let framesManager = FramesManager()
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        canvasView.frame = view.bounds
-    }
+    private weak var delegate: ToolsPanelDelegate? // move to comp
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .black // TODO: Theme?
+        
         view.addSubview(canvasView)
         delegate = canvasView // move to comp
+        framesManager.frames.append(.init())
+        canvasView.configure(currentFrame: framesManager.frames[0], previousFrame: nil)
         
         canvasView.delegate = self
         
+        view.addSubview(topToolsStackView)
+        topToolsStackView.backgroundColor = .black
+        
+        layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
+        addFrameButton.addTarget(self, action: #selector(handleAddFrameTapped), for: .touchUpInside)
+        
         view.addSubview(toolsStackView)
+        toolsStackView.backgroundColor = .black
         
         penButton.addTarget(self, action: #selector(handlePenSelected), for: .touchUpInside)
         eraserButton.addTarget(self, action: #selector(handleEraserSelected), for: .touchUpInside)
@@ -66,11 +94,19 @@ class ViewController: UIViewController {
         undoButton.addTarget(self, action: #selector(undo), for: .touchUpInside)
         redoButton.addTarget(self, action: #selector(redo), for: .touchUpInside)
         
-        toolsStackView.backgroundColor = .black
-        
         updateUndoRedoButtons()
         
         NSLayoutConstraint.activate([
+            topToolsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            topToolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            topToolsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            topToolsStackView.heightAnchor.constraint(equalToConstant: 40),
+            
+            canvasView.topAnchor.constraint(equalTo: topToolsStackView.bottomAnchor),
+            canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            canvasView.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor),
+            
             toolsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             toolsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
@@ -81,6 +117,26 @@ class ViewController: UIViewController {
     private func updateUndoRedoButtons() {
         undoButton.isEnabled = delegate?.isUndoButtonEnabled ?? false
         redoButton.isEnabled = delegate?.isRedoButtonEnabled ?? false
+    }
+    
+    @objc private func handleLayersTapped(_ sender: UIButton) {
+        let popoverViewController = FramesTableViewController(framesManager: framesManager)
+        popoverViewController.delegate = self
+        
+        popoverViewController.modalPresentationStyle = .popover
+        
+        // 3. Configure the popover presentation
+        let popoverPresentationController = popoverViewController.popoverPresentationController
+        // Set the permitted arrow directions
+        popoverPresentationController?.permittedArrowDirections = .up
+        // Set the source rect (the bounds of the button)
+        popoverPresentationController?.sourceRect = sender.bounds
+        // Set the source view (the button)
+        popoverPresentationController?.sourceView = sender
+        // 4. Set the view controller as the delegate to manage the popover's behavior.
+        popoverPresentationController?.delegate = self
+        
+        self.present(popoverViewController, animated: true)
     }
     
     @objc private func undo() {
@@ -97,9 +153,12 @@ class ViewController: UIViewController {
         delegate?.didSelectTool(.pen)
     }
     
-    
     @objc private func handleEraserSelected() {
         delegate?.didSelectTool(.eraser)
+    }
+    
+    @objc private func handleAddFrameTapped() {
+        framesManager.frames.append(Frame())
     }
 }
 
@@ -117,5 +176,25 @@ extension ViewController: FrameCanvasViewDelegate {
     
     func didUpdateDrawing() {
         updateUndoRedoButtons()
+    }
+}
+
+extension ViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+extension ViewController: FramesTableViewControllerDelegate {
+    
+    func didSelectFrame(frame: Frame) {
+        let index = framesManager.frames.firstIndex(where: { $0.id == frame.id }) ?? -1 // todo: Ref
+        canvasView.configure(
+            currentFrame: frame,
+            previousFrame: index > 0 ? framesManager.frames[index - 1] : nil
+        )
+        
+        dismiss(animated: true)
     }
 }
