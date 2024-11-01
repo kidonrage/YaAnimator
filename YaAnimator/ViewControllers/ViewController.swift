@@ -40,9 +40,33 @@ class ViewController: UIViewController {
         button.setImage(UIImage(named: "pauseIcon"), for: .normal)
         return button
     }()
+    private lazy var historyManagementPanel: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [undoButton, redoButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 8
+        return sv
+    }()
+    private lazy var frameManagementPanel: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [deleteFrameButton, addFrameButton, layersButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 8
+        return sv
+    }()
+    private lazy var playPausePanel: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [pauseButton, playButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 8
+        return sv
+    }()
     private lazy var topToolsStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [
-            undoButton, redoButton, UIView(), deleteFrameButton, addFrameButton, layersButton, UIView(), pauseButton, playButton
+            historyManagementPanel, UIView(), frameManagementPanel , UIView(), playPausePanel
         ])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
@@ -266,6 +290,8 @@ extension ViewController: AnimationDemoManagerDelegate {
         pauseButton.isEnabled = true
         playButton.isEnabled = false
         canvasView.isUserInteractionEnabled = false
+        
+        updateIsControlsHidden(true)
     }
     
     func didAnimationChangedFrame(_ frame: Frame) {
@@ -276,5 +302,17 @@ extension ViewController: AnimationDemoManagerDelegate {
         pauseButton.isEnabled = false
         playButton.isEnabled = true
         canvasView.isUserInteractionEnabled = true
+        
+        if let lastFrame = framesManager.frames.last {
+            framesManager.selectFrame(frame: lastFrame)
+        }
+        
+        updateIsControlsHidden(false)
+    }
+    
+    private func updateIsControlsHidden(_ isHidden: Bool) {
+        historyManagementPanel.isHidden = isHidden
+        frameManagementPanel.isHidden = isHidden
+        toolsStackView.isHidden = isHidden
     }
 }
