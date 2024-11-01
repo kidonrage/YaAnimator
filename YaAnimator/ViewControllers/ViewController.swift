@@ -68,6 +68,7 @@ class ViewController: UIViewController {
         let sv = UIStackView(arrangedSubviews: [
             historyManagementPanel, UIView(), frameManagementPanel , UIView(), playPausePanel
         ])
+        sv.distribution = .equalCentering
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
         sv.alignment = .center

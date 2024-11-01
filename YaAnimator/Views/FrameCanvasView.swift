@@ -10,8 +10,9 @@ import UIKit
 final class FrameCanvasView: UIView {
     
     private let backgroundImage: UIImage? = nil // TODO: Return back or delete
-    private var previousFrameImage: UIImage?
-    private var image: UIImage?
+    private var previousFrameImage: UIImage? // image of the previous frame
+    private var initialFrameImage: UIImage? // image of the frame in the beginning of actions history
+    private var image: UIImage? // cached current state of frame
     
     private var currentFrame: Frame
     
@@ -58,23 +59,22 @@ final class FrameCanvasView: UIView {
     
     // MARK: - Configuring
     func configure(currentFrame: Frame, previousFrame: Frame?) {
-        if let currentFrameImageData = try? Data(contentsOf: currentFrame.frameSource) { 
+        image = nil
+        initialFrameImage = nil
+        previousFrameImage = nil
+        lastPoint = nil
+        actionInProgress = nil
+        actionsHistory = []
+        actionsCanceled = []
+        
+        if let currentFrameImageData = try? Data(contentsOf: currentFrame.frameSource) {
             self.image = UIImage(data: currentFrameImageData)
-        } else {
-            self.image = nil
+            self.initialFrameImage = image
         }
         
         if let previousFrame, let prevFrameImageData = try? Data(contentsOf: previousFrame.frameSource) {
             self.previousFrameImage = UIImage(data: prevFrameImageData)
-        } else {
-            self.previousFrameImage = nil
         }
-        
-        lastPoint = nil
-        
-        actionInProgress = nil
-        actionsHistory = []
-        actionsCanceled = []
         
         self.currentFrame = currentFrame
         
@@ -90,7 +90,7 @@ final class FrameCanvasView: UIView {
         
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
         
-        image?.draw(in: bounds)
+        initialFrameImage?.draw(in: bounds)
         
         for action in actionsHistory {
             painter.draw(action: action, context: ctx)
