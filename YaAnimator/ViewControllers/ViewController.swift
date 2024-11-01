@@ -105,6 +105,12 @@ class ViewController: UIViewController {
         sv.spacing = 8
         return sv
     }()
+    private let previousFrameImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "canvasBackground"))
+        imageView.layer.opacity = 0.5
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     private let backgroundPaperImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "canvasBackground"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +131,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .black // TODO: Theme?
         
         view.addSubview(backgroundPaperImageView)
+        view.addSubview(previousFrameImageView)
         
         view.addSubview(canvasView)
         delegate = canvasView // move to comp
@@ -168,6 +175,12 @@ class ViewController: UIViewController {
             backgroundPaperImageView.trailingAnchor.constraint(equalTo: canvasView.trailingAnchor),
             backgroundPaperImageView.bottomAnchor.constraint(equalTo: canvasView.bottomAnchor),
             backgroundPaperImageView.leadingAnchor.constraint(equalTo: canvasView.leadingAnchor),
+            
+            previousFrameImageView.topAnchor.constraint(equalTo: canvasView.topAnchor),
+            previousFrameImageView.trailingAnchor.constraint(equalTo: canvasView.trailingAnchor),
+            previousFrameImageView.bottomAnchor.constraint(equalTo: canvasView.bottomAnchor),
+            previousFrameImageView.leadingAnchor.constraint(equalTo: canvasView.leadingAnchor),
+            
             
             toolsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
@@ -238,10 +251,20 @@ class ViewController: UIViewController {
     }
     
     private func updateCanvas(withSelectedFrame frame: Frame) {
-        let index = framesManager.frames.firstIndex(where: { $0.id == frame.id }) ?? -1 // todo: Ref
+        // TODO: Refactor this mess, ideally move previousFrameImageView to CanvasView
+        if 
+            let index = framesManager.frames.firstIndex(where: { $0.id == frame.id }),
+            index > 0,
+            let prevFrameImageData = try? Data(contentsOf: framesManager.frames[index - 1].frameSource)
+        {
+            self.previousFrameImageView.image = UIImage(data: prevFrameImageData)
+        } else {
+            self.previousFrameImageView.image = nil
+        }
+        
         canvasView.configure(
             currentFrame: frame,
-            previousFrame: index > 0 ? framesManager.frames[index - 1] : nil
+            previousFrame: nil
         )
     }
 }
