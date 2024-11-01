@@ -9,7 +9,7 @@ import UIKit
 
 final class FrameCanvasView: UIView {
     
-    private let backgroundImage: UIImage? = nil
+    private let backgroundImage: UIImage? = nil // TODO: Return back or delete
     private var previousFrameImage: UIImage?
     private var image: UIImage?
     
@@ -89,6 +89,8 @@ final class FrameCanvasView: UIView {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
         
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
+        
+        image?.draw(in: bounds)
         
         for action in actionsHistory {
             painter.draw(action: action, context: ctx)
