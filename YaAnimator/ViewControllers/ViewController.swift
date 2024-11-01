@@ -87,8 +87,7 @@ class ViewController: UIViewController {
     }()
     
     private let framesManager = FramesManager.shared
-    
-    private var animationDemoTimer: Timer?
+    private let animationDemoManager = AnimationDemoManager()
     
     private weak var delegate: ToolsPanelDelegate? // move to comp
 
@@ -96,6 +95,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         framesManager.delegate = self
+        animationDemoManager.delegate = self
         
         view.backgroundColor = .black // TODO: Theme?
         
@@ -157,25 +157,13 @@ class ViewController: UIViewController {
     }
     
     @objc private func play() {
-        animationDemoTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] timer in
-            guard
-                let self,
-                let currentFrameIndex = self.framesManager.frames.firstIndex(where: { $0.id == self.framesManager.selectedFrame.id })
-            else { return }
-            
-            let nextFrameIndex = currentFrameIndex < self.framesManager.frames.count - 1
-                ? currentFrameIndex + 1
-                : 0
-            let nextFrame = self.framesManager.frames[nextFrameIndex]
-            
-            self.framesManager.selectFrame(frame: nextFrame)
-            
-//            self.canvasView.configure(currentFrame: nextFrame, previousFrame: nil)
-        })
+        animationDemoManager.startAnimation(
+            frames: framesManager.frames, selectedFrame: framesManager.selectedFrame
+        )
     }
     
     @objc private func pause() {
-        animationDemoTimer?.invalidate()
+        animationDemoManager.stopAnimation()
     }
     
     @objc private func handleLayersTapped(_ sender: UIButton) {
@@ -269,5 +257,24 @@ extension ViewController: FramesManagerDelegate {
     
     func didUpdateSelectedFrame(frame: Frame) {
         updateCanvas(withSelectedFrame: frame)
+    }
+}
+
+extension ViewController: AnimationDemoManagerDelegate {
+    
+    func didStartAnimationPlaying(fromFrame frame: Frame) {
+        pauseButton.isEnabled = true
+        playButton.isEnabled = false
+        canvasView.isUserInteractionEnabled = false
+    }
+    
+    func didAnimationChangedFrame(_ frame: Frame) {
+        canvasView.configure(currentFrame: frame, previousFrame: nil)
+    }
+    
+    func didEndAnimationPlaying() {
+        pauseButton.isEnabled = false
+        playButton.isEnabled = true
+        canvasView.isUserInteractionEnabled = true
     }
 }
