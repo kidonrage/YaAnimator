@@ -182,4 +182,8 @@ extension FrameCanvasView: ToolsPanelDelegate {
     func didSelectTool(_ tool: Tool) {
         self.selectedTool = tool
     }
+    
+    func didSelectColor(_ color: ColorPreset) {
+        self.painter.selectedColor = color.uiColor.cgColor
+    }
 }

@@ -86,6 +86,10 @@ class ViewController: UIViewController {
         button.setImage(UIImage(named: "eraserIcon"), for: .normal)
         return button
     }()
+    private let colorPickerButton: UIButton = {
+        let button = UIButton()
+        return button
+    }()
     private let undoButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "undoIcon"), for: .normal)
@@ -97,7 +101,7 @@ class ViewController: UIViewController {
         return button
     }()
     private lazy var toolsStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [UIView(), penButton, eraserButton, UIView()])
+        let sv = UIStackView(arrangedSubviews: [UIView(), penButton, eraserButton, colorPickerButton, UIView()])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
         sv.alignment = .center
@@ -116,6 +120,20 @@ class ViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    private var selectedTool: Tool = .pen {
+        didSet {
+            updateSelectedTool()
+            delegate?.didSelectTool(selectedTool)
+        }
+    }
+    private var selectedColor: ColorPreset = .red {
+        didSet {
+            updateColorPickerButton()
+            delegate?.didSelectColor(selectedColor)
+            
+        }
+    }
     
     private let framesManager = FramesManager.shared
     private let animationDemoManager = AnimationDemoManager()
@@ -160,6 +178,9 @@ class ViewController: UIViewController {
         
         updateUndoRedoButtons()
         
+        selectedTool = .pen
+        selectedColor = .red
+        
         NSLayoutConstraint.activate([
             topToolsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topToolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
@@ -192,6 +213,29 @@ class ViewController: UIViewController {
     private func updateUndoRedoButtons() {
         undoButton.isEnabled = delegate?.isUndoButtonEnabled ?? false
         redoButton.isEnabled = delegate?.isRedoButtonEnabled ?? false
+    }
+    
+    private func updateSelectedTool() {
+        let highlightedButton: UIButton?
+        switch selectedTool {
+        case .pen:
+            highlightedButton = penButton
+        case .eraser:
+            highlightedButton = eraserButton
+        }
+        
+        [penButton, eraserButton].forEach { button in
+            let tintColor: UIColor = highlightedButton == button ? .buttonAccent : .white
+            let image = button.image(for: .normal)?.withTintColor(tintColor)
+            button.setImage(image, for: .normal)
+        }
+    }
+    
+    private func updateColorPickerButton() {
+        colorPickerButton.setImage(
+            UIImage.colorIcon(color: selectedColor.uiColor, isHighlighted: false),
+            for: .normal
+        )
     }
     
     @objc private func play() {
@@ -239,11 +283,11 @@ class ViewController: UIViewController {
     }
     
     @objc private func handlePenSelected() {
-        delegate?.didSelectTool(.pen)
+        selectedTool = .pen
     }
     
     @objc private func handleEraserSelected() {
-        delegate?.didSelectTool(.eraser)
+        selectedTool = .eraser
     }
     
     @objc private func handleAddFrameTapped() {
@@ -267,16 +311,6 @@ class ViewController: UIViewController {
             previousFrame: nil
         )
     }
-}
-
-protocol ToolsPanelDelegate: AnyObject {
-    
-    var isUndoButtonEnabled: Bool { get }
-    var isRedoButtonEnabled: Bool { get }
-    
-    func undo()
-    func redo()
-    func didSelectTool(_ tool: Tool)
 }
 
 extension ViewController: FrameCanvasViewDelegate {

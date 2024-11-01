@@ -7,15 +7,17 @@
 
 import UIKit
 
-struct Painter {
+class Painter {
     
     private let brushSize: CGFloat = 15
+    
+    var selectedColor: CGColor?
     
     func draw(action: Action, context ctx: CGContext) {
         let lineWidth: CGFloat = brushSize
         
         // todo: refactor
-        let color: UIColor = getColor(forTool: action.tool)
+        let color: CGColor = getColor(forTool: action.tool)
         
         // todo: refactor
         let blendMode: CGBlendMode = getBlendMode(forTool: action.tool)
@@ -25,18 +27,18 @@ struct Painter {
         ctx.addPath(action.path.cgPath)
         ctx.setLineCap(.round)
         ctx.setLineWidth(lineWidth)
-        ctx.setStrokeColor(color.cgColor)
+        ctx.setStrokeColor(color)
         ctx.setBlendMode(blendMode)
 //        ctx.setAlpha(1.0)
         ctx.strokePath()
     }
     
-    private func getColor(forTool tool: Tool) -> UIColor {
+    private func getColor(forTool tool: Tool) -> CGColor {
         switch tool {
         case .pen:
-            return UIColor.init(red: 207/255, green: 66/255, blue: 68/255, alpha: 1)
+            return selectedColor ?? UIColor.clear.cgColor
         case .eraser:
-            return UIColor.clear
+            return UIColor.clear.cgColor
         }
     }
     
