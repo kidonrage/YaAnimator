@@ -84,6 +84,17 @@ final class FrameCanvasView: UIView {
         delegate?.didUpdateDrawing()
     }
     
+    func copyCanvasContentToNewFrame() {
+        let copyFrameId = UUID()
+        let copyFrameImgSource = FileManager.default.sourceForFrame(withId: copyFrameId)
+        do {
+            try image?.pngData()?.write(to: copyFrameImgSource)
+            FramesManager.shared.addFrame(id: copyFrameId)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
     // MARK: - Drawing
     
     private func updateImage() {

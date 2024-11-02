@@ -134,6 +134,15 @@ class ViewController: UIViewController {
         deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
         layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
         addFrameButton.addTarget(self, action: #selector(handleAddFrameTapped), for: .touchUpInside)
+        let addFrameMenu = UIMenu(children: [
+            UIAction(title: "Добавить пустой кадр", handler: { [weak self] action in
+                self?.handleAddFrameTapped()
+            }),
+            UIAction(title: "Скопировать кадр", handler: { [weak self] action in
+                self?.handleCopyFrameTapped()
+            }),
+        ])
+        addFrameButton.menu = addFrameMenu
         
         playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
         pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
@@ -222,6 +231,10 @@ class ViewController: UIViewController {
     
     @objc private func handleAddFrameTapped() {
         framesManager.addFrame()
+    }
+    
+    @objc private func handleCopyFrameTapped() {
+        canvasView.copyCanvasContentToNewFrame()
     }
     
     private func updateCanvas(withSelectedFrame frame: Frame) {

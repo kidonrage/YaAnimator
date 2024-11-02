@@ -18,4 +18,9 @@ struct Frame {
         self.id = id
         self.frameSource = FileManager.default.getDocumentsDirectory().appendingPathComponent("\(id.uuidString).png")
     }
+    
+    init(id: UUID) {
+        self.id = id
+        self.frameSource = FileManager.default.sourceForFrame(withId: id)
+    }
 }

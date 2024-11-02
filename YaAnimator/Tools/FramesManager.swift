@@ -49,8 +49,21 @@ final class FramesManager {
     }
     
     func addFrame() {
-        frames.append(.init())
+        let frame = Frame()
+        frames.append(frame)
         selectedFrameIndex = frames.count - 1
+    }
+    
+    @discardableResult
+    func addFrame(id: UUID) -> Frame {
+        let frame = Frame(id: id)
+        frames.append(frame)
+        selectedFrameIndex = frames.count - 1
+        return frame
+    }
+    
+    func addSelectedFrameCopy() {
+        let frameCopy = Frame()
     }
     
     func deleteCurrentFrame() {
@@ -66,5 +79,9 @@ extension FileManager {
     func getDocumentsDirectory() -> URL {
         let paths = self.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+    
+    func sourceForFrame(withId frameId: UUID) -> URL {
+        getDocumentsDirectory().appendingPathComponent("\(frameId.uuidString).png")
     }
 }
