@@ -29,6 +29,7 @@
 		C6EB9F8A2CD58B3C00F96D4A /* UIColor+constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */; };
 		C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */; };
 		C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */; };
+		C6EB9F902CD6B1B100F96D4A /* PopupPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+constants.swift"; sourceTree = "<group>"; };
 		C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsPanelView.swift; sourceTree = "<group>"; };
 		C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsPanelDelegate.swift; sourceTree = "<group>"; };
+		C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupPanelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */,
 				C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */,
 				C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */,
+				C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			files = (
 				C6401AA22CD153F000CF666F /* ViewController.swift in Sources */,
 				C6EB9F842CD5847E00F96D4A /* ToolsPanelDelegate.swift in Sources */,
+				C6EB9F902CD6B1B100F96D4A /* PopupPanelView.swift in Sources */,
 				C6401AB62CD17E3100CF666F /* Action.swift in Sources */,
 				C6401AB42CD1552B00CF666F /* Painter.swift in Sources */,
 				C6401AB82CD17E3800CF666F /* Tool.swift in Sources */,

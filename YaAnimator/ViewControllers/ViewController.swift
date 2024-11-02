@@ -129,6 +129,7 @@ class ViewController: UIViewController {
         
         view.addSubview(toolsPanelView)
         toolsPanelView.delegate = canvasView
+        toolsPanelView.parentVC = self
         
         deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
         layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
@@ -151,7 +152,7 @@ class ViewController: UIViewController {
             canvasView.topAnchor.constraint(equalTo: topToolsStackView.bottomAnchor, constant: 16),
             canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            canvasView.bottomAnchor.constraint(equalTo: toolsPanelView.toolsListPanel.topAnchor, constant: -16),
+            canvasView.bottomAnchor.constraint(equalTo: toolsPanelView.topAnchor, constant: -16),
             
             backgroundPaperImageView.topAnchor.constraint(equalTo: canvasView.topAnchor),
             backgroundPaperImageView.trailingAnchor.constraint(equalTo: canvasView.trailingAnchor),

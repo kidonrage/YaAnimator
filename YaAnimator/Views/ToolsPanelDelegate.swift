@@ -12,3 +12,8 @@ protocol ToolsPanelDelegate: AnyObject {
     func didSelectTool(_ tool: Tool)
     func didSelectColor(_ color: ColorPreset)
 }
+
+protocol ToolsPanelViewDelegate: AnyObject {
+    
+    func didTapOnColorButton()
+}

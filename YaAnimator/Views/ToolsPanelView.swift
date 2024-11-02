@@ -9,11 +9,6 @@ import UIKit
 
 final class ToolsPanelView: UIView {
     
-    // for parent constrainting
-    var toolsListPanel: UIView {
-        return toolsStackView
-    }
-    
     private let penButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "penIcon"), for: .normal)
@@ -72,6 +67,7 @@ final class ToolsPanelView: UIView {
         }
     }
     
+    weak var parentVC: UIViewController?
     weak var delegate: ToolsPanelDelegate?
     
     override init(frame: CGRect) {
@@ -102,6 +98,10 @@ final class ToolsPanelView: UIView {
         selectedTool = .eraser
     }
     
+    @objc private func openColorSelectorButtonTapped() {
+        parentVC?.showPanelPopover(content: colorPickerContainer, from: toolsStackView)
+    }
+    
     @objc private func colorTapped(_ sender: UIButton) {
         guard let selectedColorPreset = ColorPreset(rawValue: sender.tag) else { return }
         self.selectedColor = selectedColorPreset
@@ -111,11 +111,11 @@ final class ToolsPanelView: UIView {
         addSubview(toolsStackView)
         toolsStackView.backgroundColor = .black
         
-        addSubview(colorPickerContainer)
         colorPickerContainer.addSubview(colorPickerStackView)
         
         penButton.addTarget(self, action: #selector(handlePenSelected), for: .touchUpInside)
         eraserButton.addTarget(self, action: #selector(handleEraserSelected), for: .touchUpInside)
+        colorPickerButton.addTarget(self, action: #selector(openColorSelectorButtonTapped), for: .touchUpInside)
         
         for colorPreset in ColorPreset.allCases {
             let button = UIButton()
@@ -133,12 +133,8 @@ final class ToolsPanelView: UIView {
             toolsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             toolsStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             toolsStackView.heightAnchor.constraint(equalToConstant: 32),
-            
-            colorPickerContainer.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor, constant: -8),
-            colorPickerContainer.leadingAnchor.constraint(equalTo: toolsStackView.leadingAnchor, constant: 32),
-            colorPickerContainer.trailingAnchor.constraint(equalTo: toolsStackView.trailingAnchor, constant: -32),
-            colorPickerContainer.topAnchor.constraint(equalTo: topAnchor),
-            
+            toolsStackView.topAnchor.constraint(equalTo: topAnchor),
+
             colorPickerStackView.centerXAnchor.constraint(equalTo: colorPickerContainer.centerXAnchor),
             colorPickerStackView.leadingAnchor.constraint(greaterThanOrEqualTo: colorPickerContainer.leadingAnchor),
             colorPickerStackView.topAnchor.constraint(equalTo: colorPickerContainer.topAnchor, constant: 16),
@@ -170,5 +166,4 @@ final class ToolsPanelView: UIView {
             button.setImage(image, for: .normal)
         }
     }
-    
 }
