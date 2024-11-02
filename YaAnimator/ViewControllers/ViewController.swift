@@ -121,6 +121,34 @@ class ViewController: UIViewController {
         return imageView
     }()
     
+    private let colorPickerStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: ColorPreset.allCases.map { colorPreset in
+            let button = UIButton()
+            button.setImage(
+                UIImage.colorIcon(color: colorPreset.uiColor, isHighlighted: false),
+                for: .normal
+            )
+            return button
+        })
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 16
+        return sv
+    }()
+    private let colorPickerContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.layer.masksToBounds = true
+        blurEffectView.layer.cornerRadius = 4
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        return view
+    }()
+    
     private var selectedTool: Tool = .pen {
         didSet {
             updateSelectedTool()
@@ -131,7 +159,6 @@ class ViewController: UIViewController {
         didSet {
             updateColorPickerButton()
             delegate?.didSelectColor(selectedColor)
-            
         }
     }
     
@@ -154,11 +181,16 @@ class ViewController: UIViewController {
         view.addSubview(canvasView)
         delegate = canvasView // move to comp
         canvasView.configure(currentFrame: framesManager.frames[0], previousFrame: nil)
-        
         canvasView.delegate = self
         
         view.addSubview(topToolsStackView)
         topToolsStackView.backgroundColor = .black
+        
+        view.addSubview(toolsStackView)
+        toolsStackView.backgroundColor = .black
+        
+        view.addSubview(colorPickerContainer)
+        colorPickerContainer.addSubview(colorPickerStackView)
         
         deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
         layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
@@ -166,9 +198,6 @@ class ViewController: UIViewController {
         
         playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
         pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
-        
-        view.addSubview(toolsStackView)
-        toolsStackView.backgroundColor = .black
         
         penButton.addTarget(self, action: #selector(handlePenSelected), for: .touchUpInside)
         eraserButton.addTarget(self, action: #selector(handleEraserSelected), for: .touchUpInside)
@@ -185,12 +214,12 @@ class ViewController: UIViewController {
             topToolsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topToolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             topToolsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            topToolsStackView.heightAnchor.constraint(equalToConstant: 40),
+            topToolsStackView.heightAnchor.constraint(equalToConstant: 32),
             
-            canvasView.topAnchor.constraint(equalTo: topToolsStackView.bottomAnchor),
-            canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            canvasView.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor),
+            canvasView.topAnchor.constraint(equalTo: topToolsStackView.bottomAnchor, constant: 16),
+            canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            canvasView.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor, constant: -16),
             
             backgroundPaperImageView.topAnchor.constraint(equalTo: canvasView.topAnchor),
             backgroundPaperImageView.trailingAnchor.constraint(equalTo: canvasView.trailingAnchor),
@@ -202,11 +231,21 @@ class ViewController: UIViewController {
             previousFrameImageView.bottomAnchor.constraint(equalTo: canvasView.bottomAnchor),
             previousFrameImageView.leadingAnchor.constraint(equalTo: canvasView.leadingAnchor),
             
-            
             toolsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             toolsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            toolsStackView.heightAnchor.constraint(equalToConstant: 40)
+            toolsStackView.heightAnchor.constraint(equalToConstant: 32),
+            
+            colorPickerContainer.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor, constant: -8),
+            colorPickerContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            colorPickerContainer.trailingAnchor.constraint(equalTo: toolsStackView.trailingAnchor, constant: -32),
+            
+            colorPickerStackView.centerXAnchor.constraint(equalTo: colorPickerContainer.centerXAnchor),
+            colorPickerStackView.leadingAnchor.constraint(greaterThanOrEqualTo: colorPickerContainer.leadingAnchor),
+            colorPickerStackView.topAnchor.constraint(equalTo: colorPickerContainer.topAnchor, constant: 16),
+            colorPickerStackView.bottomAnchor.constraint(equalTo: colorPickerContainer.bottomAnchor, constant: -16),
+            colorPickerStackView.trailingAnchor.constraint(lessThanOrEqualTo: colorPickerContainer.trailingAnchor),
+            colorPickerStackView.heightAnchor.constraint(equalToConstant: 32),
         ])
     }
     

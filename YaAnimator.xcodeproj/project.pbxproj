@@ -27,6 +27,7 @@
 		C6EB9F862CD5856600F96D4A /* ColorPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F852CD5856600F96D4A /* ColorPreset.swift */; };
 		C6EB9F882CD58A9000F96D4A /* UIColor+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */; };
 		C6EB9F8A2CD58B3C00F96D4A /* UIColor+constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */; };
+		C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		C6EB9F852CD5856600F96D4A /* ColorPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPreset.swift; sourceTree = "<group>"; };
 		C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+init.swift"; sourceTree = "<group>"; };
 		C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+constants.swift"; sourceTree = "<group>"; };
+		C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsPanelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */,
 				C6EB9F832CD5847E00F96D4A /* ToolPanelDelegate.swift */,
 				C6EB9F852CD5856600F96D4A /* ColorPreset.swift */,
+				C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				C6401AB22CD1550900CF666F /* FrameCanvasView.swift in Sources */,
 				C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */,
 				C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */,
+				C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */,
 				C66E91152CD3F8FD00B48990 /* Frame.swift in Sources */,
 				C6EB9F8A2CD58B3C00F96D4A /* UIColor+constants.swift in Sources */,
 			);
