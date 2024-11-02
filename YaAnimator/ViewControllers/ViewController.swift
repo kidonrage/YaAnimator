@@ -76,20 +76,6 @@ class ViewController: UIViewController {
         return sv
     }()
     
-    private let penButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "penIcon"), for: .normal)
-        return button
-    }()
-    private let eraserButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "eraserIcon"), for: .normal)
-        return button
-    }()
-    private let colorPickerButton: UIButton = {
-        let button = UIButton()
-        return button
-    }()
     private let undoButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "undoIcon"), for: .normal)
@@ -99,15 +85,6 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "redoIcon"), for: .normal)
         return button
-    }()
-    private lazy var toolsStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [UIView(), penButton, eraserButton, colorPickerButton, UIView()])
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .horizontal
-        sv.alignment = .center
-        sv.distribution = .equalCentering
-        sv.spacing = 8
-        return sv
     }()
     private let previousFrameImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "canvasBackground"))
@@ -121,51 +98,16 @@ class ViewController: UIViewController {
         return imageView
     }()
     
-    private let colorPickerStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: ColorPreset.allCases.map { colorPreset in
-            let button = UIButton()
-            button.setImage(
-                UIImage.colorIcon(color: colorPreset.uiColor, isHighlighted: false),
-                for: .normal
-            )
-            return button
-        })
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .horizontal
-        sv.alignment = .center
-        sv.spacing = 16
-        return sv
-    }()
-    private let colorPickerContainer: UIView = {
-        let view = UIView()
+    private let toolsPanelView: ToolsPanelView = {
+        let view = ToolsPanelView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.layer.masksToBounds = true
-        blurEffectView.layer.cornerRadius = 4
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
         return view
     }()
-    
-    private var selectedTool: Tool = .pen {
-        didSet {
-            updateSelectedTool()
-            delegate?.didSelectTool(selectedTool)
-        }
-    }
-    private var selectedColor: ColorPreset = .red {
-        didSet {
-            updateColorPickerButton()
-            delegate?.didSelectColor(selectedColor)
-        }
-    }
     
     private let framesManager = FramesManager.shared
     private let animationDemoManager = AnimationDemoManager()
     
-    private weak var delegate: ToolsPanelDelegate? // move to comp
+    private weak var delegate: ActionsPanelDelegate? // move to comp
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,13 +126,9 @@ class ViewController: UIViewController {
         canvasView.delegate = self
         
         view.addSubview(topToolsStackView)
-        topToolsStackView.backgroundColor = .black
         
-        view.addSubview(toolsStackView)
-        toolsStackView.backgroundColor = .black
-        
-        view.addSubview(colorPickerContainer)
-        colorPickerContainer.addSubview(colorPickerStackView)
+        view.addSubview(toolsPanelView)
+        toolsPanelView.delegate = canvasView
         
         deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
         layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
@@ -199,16 +137,10 @@ class ViewController: UIViewController {
         playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
         pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
         
-        penButton.addTarget(self, action: #selector(handlePenSelected), for: .touchUpInside)
-        eraserButton.addTarget(self, action: #selector(handleEraserSelected), for: .touchUpInside)
-        
         undoButton.addTarget(self, action: #selector(undo), for: .touchUpInside)
         redoButton.addTarget(self, action: #selector(redo), for: .touchUpInside)
         
         updateUndoRedoButtons()
-        
-        selectedTool = .pen
-        selectedColor = .red
         
         NSLayoutConstraint.activate([
             topToolsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -219,7 +151,7 @@ class ViewController: UIViewController {
             canvasView.topAnchor.constraint(equalTo: topToolsStackView.bottomAnchor, constant: 16),
             canvasView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             canvasView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            canvasView.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor, constant: -16),
+            canvasView.bottomAnchor.constraint(equalTo: toolsPanelView.toolsListPanel.topAnchor, constant: -16),
             
             backgroundPaperImageView.topAnchor.constraint(equalTo: canvasView.topAnchor),
             backgroundPaperImageView.trailingAnchor.constraint(equalTo: canvasView.trailingAnchor),
@@ -231,50 +163,16 @@ class ViewController: UIViewController {
             previousFrameImageView.bottomAnchor.constraint(equalTo: canvasView.bottomAnchor),
             previousFrameImageView.leadingAnchor.constraint(equalTo: canvasView.leadingAnchor),
             
-            toolsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            toolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            toolsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            toolsStackView.heightAnchor.constraint(equalToConstant: 32),
-            
-            colorPickerContainer.bottomAnchor.constraint(equalTo: toolsStackView.topAnchor, constant: -8),
-            colorPickerContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
-            colorPickerContainer.trailingAnchor.constraint(equalTo: toolsStackView.trailingAnchor, constant: -32),
-            
-            colorPickerStackView.centerXAnchor.constraint(equalTo: colorPickerContainer.centerXAnchor),
-            colorPickerStackView.leadingAnchor.constraint(greaterThanOrEqualTo: colorPickerContainer.leadingAnchor),
-            colorPickerStackView.topAnchor.constraint(equalTo: colorPickerContainer.topAnchor, constant: 16),
-            colorPickerStackView.bottomAnchor.constraint(equalTo: colorPickerContainer.bottomAnchor, constant: -16),
-            colorPickerStackView.trailingAnchor.constraint(lessThanOrEqualTo: colorPickerContainer.trailingAnchor),
-            colorPickerStackView.heightAnchor.constraint(equalToConstant: 32),
+            toolsPanelView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor),
+            toolsPanelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            toolsPanelView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            toolsPanelView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
         ])
     }
     
     private func updateUndoRedoButtons() {
         undoButton.isEnabled = delegate?.isUndoButtonEnabled ?? false
         redoButton.isEnabled = delegate?.isRedoButtonEnabled ?? false
-    }
-    
-    private func updateSelectedTool() {
-        let highlightedButton: UIButton?
-        switch selectedTool {
-        case .pen:
-            highlightedButton = penButton
-        case .eraser:
-            highlightedButton = eraserButton
-        }
-        
-        [penButton, eraserButton].forEach { button in
-            let tintColor: UIColor = highlightedButton == button ? .buttonAccent : .white
-            let image = button.image(for: .normal)?.withTintColor(tintColor)
-            button.setImage(image, for: .normal)
-        }
-    }
-    
-    private func updateColorPickerButton() {
-        colorPickerButton.setImage(
-            UIImage.colorIcon(color: selectedColor.uiColor, isHighlighted: false),
-            for: .normal
-        )
     }
     
     @objc private func play() {
@@ -319,14 +217,6 @@ class ViewController: UIViewController {
     @objc private func redo() {
         delegate?.redo()
         updateUndoRedoButtons()
-    }
-    
-    @objc private func handlePenSelected() {
-        selectedTool = .pen
-    }
-    
-    @objc private func handleEraserSelected() {
-        selectedTool = .eraser
     }
     
     @objc private func handleAddFrameTapped() {
@@ -410,6 +300,6 @@ extension ViewController: AnimationDemoManagerDelegate {
     private func updateIsControlsHidden(_ isHidden: Bool) {
         historyManagementPanel.isHidden = isHidden
         frameManagementPanel.isHidden = isHidden
-        toolsStackView.isHidden = isHidden
+        toolsPanelView.isHidden = isHidden
     }
 }

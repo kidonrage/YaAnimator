@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum ColorPreset: CaseIterable {
+enum ColorPreset: Int, CaseIterable {
     
     case red
     case green

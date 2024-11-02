@@ -23,11 +23,12 @@
 		C66E91152CD3F8FD00B48990 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E91142CD3F8FD00B48990 /* Frame.swift */; };
 		C6C299592CD435DF00B10BBC /* AnimationDemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C299582CD435DF00B10BBC /* AnimationDemoManager.swift */; };
 		C6EB9F822CD5814300F96D4A /* UIImage+colorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */; };
-		C6EB9F842CD5847E00F96D4A /* ToolPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F832CD5847E00F96D4A /* ToolPanelDelegate.swift */; };
+		C6EB9F842CD5847E00F96D4A /* ToolsPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */; };
 		C6EB9F862CD5856600F96D4A /* ColorPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F852CD5856600F96D4A /* ColorPreset.swift */; };
 		C6EB9F882CD58A9000F96D4A /* UIColor+init.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */; };
 		C6EB9F8A2CD58B3C00F96D4A /* UIColor+constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */; };
 		C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */; };
+		C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,11 +50,12 @@
 		C66E91142CD3F8FD00B48990 /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		C6C299582CD435DF00B10BBC /* AnimationDemoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationDemoManager.swift; sourceTree = "<group>"; };
 		C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+colorImage.swift"; sourceTree = "<group>"; };
-		C6EB9F832CD5847E00F96D4A /* ToolPanelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPanelDelegate.swift; sourceTree = "<group>"; };
+		C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsPanelDelegate.swift; sourceTree = "<group>"; };
 		C6EB9F852CD5856600F96D4A /* ColorPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPreset.swift; sourceTree = "<group>"; };
 		C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+init.swift"; sourceTree = "<group>"; };
 		C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+constants.swift"; sourceTree = "<group>"; };
 		C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsPanelView.swift; sourceTree = "<group>"; };
+		C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsPanelDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,10 +116,11 @@
 		C6401ABA2CD17E4400CF666F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */,
+				C6EB9F852CD5856600F96D4A /* ColorPreset.swift */,
 				C6401AB12CD1550900CF666F /* FrameCanvasView.swift */,
 				C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */,
-				C6EB9F832CD5847E00F96D4A /* ToolPanelDelegate.swift */,
-				C6EB9F852CD5856600F96D4A /* ColorPreset.swift */,
+				C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */,
 				C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */,
 			);
 			path = Views;
@@ -224,12 +227,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6401AA22CD153F000CF666F /* ViewController.swift in Sources */,
-				C6EB9F842CD5847E00F96D4A /* ToolPanelDelegate.swift in Sources */,
+				C6EB9F842CD5847E00F96D4A /* ToolsPanelDelegate.swift in Sources */,
 				C6401AB62CD17E3100CF666F /* Action.swift in Sources */,
 				C6401AB42CD1552B00CF666F /* Painter.swift in Sources */,
 				C6401AB82CD17E3800CF666F /* Tool.swift in Sources */,
 				C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */,
 				C6C299592CD435DF00B10BBC /* AnimationDemoManager.swift in Sources */,
+				C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */,
 				C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */,
 				C6EB9F862CD5856600F96D4A /* ColorPreset.swift in Sources */,
 				C6EB9F882CD58A9000F96D4A /* UIColor+init.swift in Sources */,

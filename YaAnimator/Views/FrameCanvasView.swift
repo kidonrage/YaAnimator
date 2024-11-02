@@ -16,7 +16,8 @@ final class FrameCanvasView: UIView {
     
     private var currentFrame: Frame
     
-    private var selectedTool: Tool = .pen
+    private var selectedTool: Tool!
+    private var selectedColor: ColorPreset!
     private var lastPoint: CGPoint?
     
     private var actionInProgress: Action?
@@ -114,7 +115,11 @@ final class FrameCanvasView: UIView {
 //        print("[TEST] began")
         guard let touch = touches.first else { return }
         let startingPoint = touch.location(in: self)
-        actionInProgress = Action(tool: selectedTool, startingPoint: startingPoint)
+        actionInProgress = Action(
+            tool: selectedTool,
+            selectedColor: selectedColor.uiColor,
+            startingPoint: startingPoint
+        )
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -151,6 +156,18 @@ final class FrameCanvasView: UIView {
 // MARK: - ToolsPanelDelegate
 extension FrameCanvasView: ToolsPanelDelegate {
     
+    func didSelectTool(_ tool: Tool) {
+        self.selectedTool = tool
+    }
+    
+    func didSelectColor(_ color: ColorPreset) {
+        self.selectedColor = color
+    }
+}
+
+// MARK: - ActionsPanelDelegate
+extension FrameCanvasView: ActionsPanelDelegate {
+    
     var isUndoButtonEnabled: Bool {
         return !actionsHistory.isEmpty
     }
@@ -177,13 +194,5 @@ extension FrameCanvasView: ToolsPanelDelegate {
         updateImage()
         
         setNeedsDisplay()
-    }
-    
-    func didSelectTool(_ tool: Tool) {
-        self.selectedTool = tool
-    }
-    
-    func didSelectColor(_ color: ColorPreset) {
-        self.painter.selectedColor = color.uiColor.cgColor
     }
 }

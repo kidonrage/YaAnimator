@@ -10,14 +10,16 @@ import UIKit
 struct Action {
     
     let tool: Tool
+    let selectedColor: UIColor
     private(set) var path: UIBezierPath
     
-    init(tool: Tool, startingPoint: CGPoint) {
+    init(tool: Tool, selectedColor: UIColor, startingPoint: CGPoint) {
         self.tool = tool
         
         let path = UIBezierPath()
         path.move(to: startingPoint)
         self.path = path
+        self.selectedColor = selectedColor
     }
     
     func addPoint(_ pointToAdd: CGPoint) {

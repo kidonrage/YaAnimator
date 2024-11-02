@@ -11,13 +11,11 @@ class Painter {
     
     private let brushSize: CGFloat = 15
     
-    var selectedColor: CGColor?
-    
     func draw(action: Action, context ctx: CGContext) {
         let lineWidth: CGFloat = brushSize
         
         // todo: refactor
-        let color: CGColor = getColor(forTool: action.tool)
+        let color: CGColor = getColor(forAction: action)
         
         // todo: refactor
         let blendMode: CGBlendMode = getBlendMode(forTool: action.tool)
@@ -33,10 +31,10 @@ class Painter {
         ctx.strokePath()
     }
     
-    private func getColor(forTool tool: Tool) -> CGColor {
-        switch tool {
+    private func getColor(forAction action: Action) -> CGColor {
+        switch action.tool {
         case .pen:
-            return selectedColor ?? UIColor.clear.cgColor
+            return action.selectedColor.cgColor
         case .eraser:
             return UIColor.clear.cgColor
         }
