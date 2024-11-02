@@ -301,5 +301,6 @@ extension ViewController: AnimationDemoManagerDelegate {
         historyManagementPanel.isHidden = isHidden
         frameManagementPanel.isHidden = isHidden
         toolsPanelView.isHidden = isHidden
+        previousFrameImageView.isHidden = isHidden
     }
 }
