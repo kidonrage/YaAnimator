@@ -32,6 +32,8 @@
 		C6EB9F902CD6B1B100F96D4A /* PopupPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */; };
 		C6EB9F922CD7FF0300F96D4A /* CGPath+subpath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */; };
 		C6EB9F942CD7FF1600F96D4A /* CGPath+boundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */; };
+		C6EB9F962CD8286F00F96D4A /* AnimationSpeedSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F952CD8286F00F96D4A /* AnimationSpeedSliderView.swift */; };
+		C6EB9F982CD8294400F96D4A /* UIView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F972CD8294400F96D4A /* UIView+ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupPanelView.swift; sourceTree = "<group>"; };
 		C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPath+subpath.swift"; sourceTree = "<group>"; };
 		C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPath+boundingBox.swift"; sourceTree = "<group>"; };
+		C6EB9F952CD8286F00F96D4A /* AnimationSpeedSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSpeedSliderView.swift; sourceTree = "<group>"; };
+		C6EB9F972CD8294400F96D4A /* UIView+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,7 @@
 				C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */,
 				C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */,
 				C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */,
+				C6EB9F952CD8286F00F96D4A /* AnimationSpeedSliderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */,
 				C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */,
 				C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */,
+				C6EB9F972CD8294400F96D4A /* UIView+ext.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -235,7 +241,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6EB9F982CD8294400F96D4A /* UIView+ext.swift in Sources */,
 				C6401AA22CD153F000CF666F /* ViewController.swift in Sources */,
+				C6EB9F962CD8286F00F96D4A /* AnimationSpeedSliderView.swift in Sources */,
 				C6EB9F842CD5847E00F96D4A /* ToolsPanelDelegate.swift in Sources */,
 				C6EB9F902CD6B1B100F96D4A /* PopupPanelView.swift in Sources */,
 				C6401AB62CD17E3100CF666F /* Action.swift in Sources */,

@@ -104,6 +104,12 @@ class ViewController: UIViewController {
         return view
     }()
     
+    private let demoAnimationSpeedContainer: AnimationSpeedSliderView = {
+        let view = AnimationSpeedSliderView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let framesManager = FramesManager.shared
     private let animationDemoManager = AnimationDemoManager()
     
@@ -130,6 +136,9 @@ class ViewController: UIViewController {
         view.addSubview(toolsPanelView)
         toolsPanelView.delegate = canvasView
         toolsPanelView.parentVC = self
+        
+        view.addSubview(demoAnimationSpeedContainer)
+        demoAnimationSpeedContainer.delegate = self
         
         deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
         let deleterameMenu = UIMenu(children: [
@@ -161,6 +170,8 @@ class ViewController: UIViewController {
         
         updateUndoRedoButtons()
         
+        updateIsControlsHidden(false)
+        
         NSLayoutConstraint.activate([
             topToolsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topToolsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
@@ -186,6 +197,11 @@ class ViewController: UIViewController {
             toolsPanelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolsPanelView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             toolsPanelView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            
+            demoAnimationSpeedContainer.topAnchor.constraint(equalTo: toolsPanelView.topAnchor),
+            demoAnimationSpeedContainer.trailingAnchor.constraint(equalTo: toolsPanelView.trailingAnchor),
+            demoAnimationSpeedContainer.bottomAnchor.constraint(equalTo: toolsPanelView.bottomAnchor),
+            demoAnimationSpeedContainer.leadingAnchor.constraint(equalTo: toolsPanelView.leadingAnchor),
         ])
     }
     
@@ -265,6 +281,7 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: - FrameCanvasViewDelegate
 extension ViewController: FrameCanvasViewDelegate {
     
     func didUpdateDrawing() {
@@ -272,6 +289,7 @@ extension ViewController: FrameCanvasViewDelegate {
     }
 }
 
+// MARK: - UIPopoverPresentationControllerDelegate
 extension ViewController: UIPopoverPresentationControllerDelegate {
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -279,6 +297,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
+// MARK: - FramesTableViewControllerDelegate
 extension ViewController: FramesTableViewControllerDelegate {
     
     func didSelectFrame(frame: Frame) {
@@ -287,6 +306,7 @@ extension ViewController: FramesTableViewControllerDelegate {
     }
 }
 
+// MARK: - FramesManagerDelegate
 extension ViewController: FramesManagerDelegate {
     
     func didUpdateSelectedFrame(frame: Frame) {
@@ -294,6 +314,7 @@ extension ViewController: FramesManagerDelegate {
     }
 }
 
+// MARK: - AnimationDemoManagerDelegate
 extension ViewController: AnimationDemoManagerDelegate {
     
     func didStartAnimationPlaying(fromFrame frame: Frame) {
@@ -325,5 +346,15 @@ extension ViewController: AnimationDemoManagerDelegate {
         frameManagementPanel.isHidden = isHidden
         toolsPanelView.isHidden = isHidden
         previousFrameImageView.isHidden = isHidden
+        
+        demoAnimationSpeedContainer.isHidden = !isHidden
+    }
+}
+
+// MARK: - AnimationSpeedSliderViewDelegate
+extension ViewController: AnimationSpeedSliderViewDelegate {
+    
+    func didUpdateSpeed(_ speed: Float) {
+        animationDemoManager.updateDemoSpeed(speed: TimeInterval(speed))
     }
 }
