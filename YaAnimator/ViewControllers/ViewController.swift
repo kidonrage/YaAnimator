@@ -88,7 +88,7 @@ class ViewController: UIViewController {
     }()
     private let previousFrameImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "canvasBackground"))
-        imageView.layer.opacity = 0.5
+        imageView.layer.opacity = 0.3
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
