@@ -155,11 +155,11 @@
 		C6EB9F802CD5813300F96D4A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */,
-				C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */,
-				C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */,
-				C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */,
 				C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */,
+				C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */,
+				C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */,
+				C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */,
+				C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";

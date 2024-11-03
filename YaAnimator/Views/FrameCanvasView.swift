@@ -48,8 +48,6 @@ final class FrameCanvasView: UIView {
         
         guard let ctx = UIGraphicsGetCurrentContext() else { return }
         
-        print("[TEST] draw", rect)
-        
         backgroundImage?.draw(in: rect)
         
         previousFrameImage?.draw(in: rect, blendMode: .normal, alpha: 0.5)
