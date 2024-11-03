@@ -13,10 +13,7 @@ struct Frame {
     let frameSource: URL
     
     init() {
-        let id = UUID()
-        
-        self.id = id
-        self.frameSource = FileManager.default.getDocumentsDirectory().appendingPathComponent("\(id.uuidString).png")
+        self.init(id: UUID())
     }
     
     init(id: UUID) {

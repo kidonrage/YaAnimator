@@ -62,10 +62,6 @@ final class FramesManager {
         return frame
     }
     
-    func addSelectedFrameCopy() {
-        let frameCopy = Frame()
-    }
-    
     func deleteCurrentFrame() {
         guard isCurrentFrameRemovingEnabled else { return }
         let updatedCurrentFrameIndex = selectedFrameIndex > 0 ? selectedFrameIndex - 1 : 0
@@ -76,12 +72,12 @@ final class FramesManager {
 
 extension FileManager {
     
-    func getDocumentsDirectory() -> URL {
-        let paths = self.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
+    func getTemproraryFilesDirectory() -> URL {
+        return URL(fileURLWithPath: NSTemporaryDirectory(),
+                  isDirectory: true)
     }
     
     func sourceForFrame(withId frameId: UUID) -> URL {
-        getDocumentsDirectory().appendingPathComponent("\(frameId.uuidString).png")
+        getTemproraryFilesDirectory().appendingPathComponent("\(frameId.uuidString).png")
     }
 }
