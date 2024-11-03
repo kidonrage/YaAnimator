@@ -132,6 +132,15 @@ class ViewController: UIViewController {
         toolsPanelView.parentVC = self
         
         deleteFrameButton.addTarget(self, action: #selector(deleteFrameTapped), for: .touchUpInside)
+        let deleterameMenu = UIMenu(children: [
+            UIAction(title: "Удалить текущий кадр", handler: { [weak self] action in
+                self?.deleteFrameTapped()
+            }),
+            UIAction(title: "Удалить все кадры", handler: { [weak self] action in
+                self?.framesManager.deleteAllFrames()
+            }),
+        ])
+        deleteFrameButton.menu = deleterameMenu
         layersButton.addTarget(self, action: #selector(handleLayersTapped), for: .touchUpInside)
         addFrameButton.addTarget(self, action: #selector(handleAddFrameTapped), for: .touchUpInside)
         let addFrameMenu = UIMenu(children: [

@@ -16,10 +16,6 @@ final class FramesManager {
     
     static let shared = FramesManager()
     
-    var isCurrentFrameRemovingEnabled: Bool {
-        return frames.count > 1
-    }
-    
     private(set) var frames: [Frame] {
         didSet {
             print(frames)
@@ -63,10 +59,18 @@ final class FramesManager {
     }
     
     func deleteCurrentFrame() {
-        guard isCurrentFrameRemovingEnabled else { return }
+        guard frames.count > 1 else {
+            deleteAllFrames()
+            return
+        }
         let updatedCurrentFrameIndex = selectedFrameIndex > 0 ? selectedFrameIndex - 1 : 0
         frames.remove(at: selectedFrameIndex)
         selectedFrameIndex = updatedCurrentFrameIndex
+    }
+    
+    func deleteAllFrames() {
+        frames = [.init()]
+        selectedFrameIndex = .zero
     }
 }
 
