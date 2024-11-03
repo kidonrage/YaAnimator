@@ -22,7 +22,7 @@ class Painter {
         
         ctx.setShouldAntialias(false)
         
-        ctx.addPath(action.path.cgPath)
+        ctx.addPath(action.path)
         ctx.setLineCap(.round)
         ctx.setLineWidth(lineWidth)
         ctx.setStrokeColor(color)

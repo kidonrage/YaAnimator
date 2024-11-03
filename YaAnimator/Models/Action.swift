@@ -11,31 +11,34 @@ struct Action {
     
     let tool: Tool
     let selectedColor: UIColor
-    private(set) var path: UIBezierPath
+    private(set) var path: CGMutablePath
     
     init(tool: Tool, selectedColor: UIColor, startingPoint: CGPoint) {
         self.tool = tool
         
-        let path = UIBezierPath()
+        let path = CGMutablePath()
         path.move(to: startingPoint)
         self.path = path
         self.selectedColor = selectedColor
     }
     
-    func addPoint(_ pointToAdd: CGPoint) {
-        // TODO: Smoothing
+    func continuePath(
+        to point: CGPoint,
+        prevPointA: CGPoint,
+        prevPointB: CGPoint
+    ) -> CGRect {
+        let lineWidth: CGFloat = 15
         
-        path.addLine(to: pointToAdd)
-    }
-    
-    func createBezierRenderingBox() -> CGRect {
-        // TODO: Tune
+        let subpath = CGPath.makeSubpath(
+            cgPoint: point,
+            previousPoint1: prevPointA,
+            previousPoint2: prevPointB
+        )
         
-        var boundingBox = path.cgPath.boundingBox
-        boundingBox.origin.x -= (15 / 2)
-        boundingBox.origin.y -= (15 / 2)
-        boundingBox.size.width += 15
-        boundingBox.size.height += 15
-        return boundingBox
+        path.addPath(subpath)
+        
+        return subpath.getExpandedBoundingBox(lineWidth: lineWidth)
     }
 }
+
+

@@ -30,6 +30,8 @@
 		C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */; };
 		C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */; };
 		C6EB9F902CD6B1B100F96D4A /* PopupPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */; };
+		C6EB9F922CD7FF0300F96D4A /* CGPath+subpath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */; };
+		C6EB9F942CD7FF1600F96D4A /* CGPath+boundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsPanelView.swift; sourceTree = "<group>"; };
 		C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsPanelDelegate.swift; sourceTree = "<group>"; };
 		C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupPanelView.swift; sourceTree = "<group>"; };
+		C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPath+subpath.swift"; sourceTree = "<group>"; };
+		C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPath+boundingBox.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */,
 				C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */,
 				C6EB9F892CD58B3C00F96D4A /* UIColor+constants.swift */,
+				C6EB9F912CD7FF0300F96D4A /* CGPath+subpath.swift */,
+				C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -237,12 +243,14 @@
 				C6401AB82CD17E3800CF666F /* Tool.swift in Sources */,
 				C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */,
 				C6C299592CD435DF00B10BBC /* AnimationDemoManager.swift in Sources */,
+				C6EB9F942CD7FF1600F96D4A /* CGPath+boundingBox.swift in Sources */,
 				C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */,
 				C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */,
 				C6EB9F862CD5856600F96D4A /* ColorPreset.swift in Sources */,
 				C6EB9F882CD58A9000F96D4A /* UIColor+init.swift in Sources */,
 				C6EB9F822CD5814300F96D4A /* UIImage+colorImage.swift in Sources */,
 				C61D7B062CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift in Sources */,
+				C6EB9F922CD7FF0300F96D4A /* CGPath+subpath.swift in Sources */,
 				C6401AB22CD1550900CF666F /* FrameCanvasView.swift in Sources */,
 				C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */,
 				C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */,

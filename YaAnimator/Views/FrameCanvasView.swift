@@ -18,7 +18,10 @@ final class FrameCanvasView: UIView {
     
     private var selectedTool: Tool!
     private var selectedColor: ColorPreset!
-    private var lastPoint: CGPoint?
+    
+    private var previousPoint1: CGPoint?
+    private var previousPoint2: CGPoint?
+    private var currentPoint: CGPoint?
     
     private var actionInProgress: Action?
     private var actionsHistory: [Action] = []
@@ -63,7 +66,6 @@ final class FrameCanvasView: UIView {
         image = nil
         initialFrameImage = nil
         previousFrameImage = nil
-        lastPoint = nil
         actionInProgress = nil
         actionsHistory = []
         actionsCanceled = []
@@ -123,22 +125,28 @@ final class FrameCanvasView: UIView {
     // MARK: - Gestures
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        print("[TEST] began")
         guard let touch = touches.first else { return }
-        let startingPoint = touch.location(in: self)
+        previousPoint1 = touch.previousLocation(in: self)
+        currentPoint = touch.location(in: self)
         actionInProgress = Action(
             tool: selectedTool,
             selectedColor: selectedColor.uiColor,
-            startingPoint: startingPoint
+            startingPoint: currentPoint!
         )
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let actionInProgress else { return }
         
-        actionInProgress.addPoint(touch.location(in: self))
+        previousPoint2 = previousPoint1
+        previousPoint1 = touch.previousLocation(in: self)
+        currentPoint = touch.location(in: self)
         
-        let renderingBox = actionInProgress.createBezierRenderingBox()
+        let renderingBox = actionInProgress.continuePath(
+            to: currentPoint!,
+            prevPointA: previousPoint1!,
+            prevPointB: previousPoint2!
+        )
 
         setNeedsDisplay(renderingBox)
     }
