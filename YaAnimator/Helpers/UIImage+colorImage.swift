@@ -23,7 +23,7 @@ extension UIImage {
             ctx.cgContext.fillEllipse(in: .init(origin: .zero, size: size))
             if isHighlighted {
                 ctx.cgContext.setLineWidth(hightlightStrokeWidth)
-                ctx.cgContext.setStrokeColor(UIColor.green.cgColor)
+                ctx.cgContext.setStrokeColor(UIColor.buttonAccent.cgColor)
                 ctx.cgContext.strokeEllipse(
                     in: .init(
                         origin: .init(x: hightlightStrokeWidth / 2, y: hightlightStrokeWidth / 2),

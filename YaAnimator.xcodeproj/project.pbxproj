@@ -120,6 +120,7 @@
 		C6401AB92CD17E4000CF666F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C6EB9F852CD5856600F96D4A /* ColorPreset.swift */,
 				C6401AB72CD17E3800CF666F /* Tool.swift */,
 				C6401AB52CD17E3100CF666F /* Action.swift */,
 				C66E91142CD3F8FD00B48990 /* Frame.swift */,
@@ -131,13 +132,10 @@
 			isa = PBXGroup;
 			children = (
 				C6EB9F8D2CD6981E00F96D4A /* ActionsPanelDelegate.swift */,
-				C6EB9F852CD5856600F96D4A /* ColorPreset.swift */,
-				C6401AB12CD1550900CF666F /* FrameCanvasView.swift */,
-				C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */,
-				C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */,
-				C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */,
-				C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */,
 				C6EB9F952CD8286F00F96D4A /* AnimationSpeedSliderView.swift */,
+				C6EB9F8F2CD6B1B100F96D4A /* PopupPanelView.swift */,
+				C6EB9F9F2CD8E26800F96D4A /* FrameCanvas */,
+				C6EB9FA02CD8E27600F96D4A /* ToolsPanel */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -174,6 +172,24 @@
 				C6EB9F9B2CD8D0A800F96D4A /* UIViewController+communication.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C6EB9F9F2CD8E26800F96D4A /* FrameCanvas */ = {
+			isa = PBXGroup;
+			children = (
+				C6401AB12CD1550900CF666F /* FrameCanvasView.swift */,
+				C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */,
+			);
+			path = FrameCanvas;
+			sourceTree = "<group>";
+		};
+		C6EB9FA02CD8E27600F96D4A /* ToolsPanel */ = {
+			isa = PBXGroup;
+			children = (
+				C6EB9F832CD5847E00F96D4A /* ToolsPanelDelegate.swift */,
+				C6EB9F8B2CD6906B00F96D4A /* ToolsPanelView.swift */,
+			);
+			path = ToolsPanel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

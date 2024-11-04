@@ -9,18 +9,21 @@ import UIKit
 
 enum ColorPreset: Int, CaseIterable {
     
+    case white
     case red
-    case green
+    case black
     case blue
     
     var uiColor: UIColor {
         switch self {
+        case .white:
+            return .white
         case .red:
-            return .red
-        case .green:
-            return .green
+            return .init(r: 255, g: 61, b: 0)
+        case .black:
+            return .init(r: 28, g: 28, b: 28)
         case .blue:
-            return .blue
+            return .init(r: 25, g: 118, b: 210)
         }
     }
 }

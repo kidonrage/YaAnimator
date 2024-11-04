@@ -17,7 +17,7 @@ final class FrameCanvasView: UIView {
     private var currentFrame: Frame
     
     private var selectedTool: Tool!
-    private var selectedColor: ColorPreset!
+    private var selectedColor: UIColor!
     
     private var previousPoint1: CGPoint?
     private var previousPoint2: CGPoint?
@@ -128,7 +128,7 @@ final class FrameCanvasView: UIView {
         currentPoint = touch.location(in: self)
         actionInProgress = Action(
             tool: selectedTool,
-            selectedColor: selectedColor.uiColor,
+            selectedColor: selectedColor,
             startingPoint: currentPoint!
         )
     }
@@ -177,7 +177,7 @@ extension FrameCanvasView: ToolsPanelDelegate {
         self.selectedTool = tool
     }
     
-    func didSelectColor(_ color: ColorPreset) {
+    func didSelectColor(_ color: UIColor) {
         self.selectedColor = color
     }
 }

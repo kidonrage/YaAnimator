@@ -52,16 +52,14 @@ final class PopupPanelView: UIView {
         addSubview(contentView)
         addSubview(anchorView)
         
-        anchorView.backgroundColor = .red
-        
         NSLayoutConstraint.activate([
             contentView.centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
-            contentView.bottomAnchor.constraint(equalTo: anchorView.topAnchor, constant: -8),
+            contentView.bottomAnchor.constraint(equalTo: anchorView.topAnchor, constant: -24),
             
-            testPanelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            testPanelView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            testPanelView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            testPanelView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            testPanelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -16),
+            testPanelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -16),
+            testPanelView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 16),
+            testPanelView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 16),
         ])
     }
     
@@ -99,6 +97,7 @@ final class PopupPanelView: UIView {
     }
 }
 
+// MARK: - UIViewController+showPanelPopover
 extension UIViewController {
     
     func showPanelPopover(content: UIView, from anchorView: UIView) {

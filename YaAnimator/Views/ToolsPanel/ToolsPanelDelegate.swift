@@ -5,12 +5,12 @@
 //  Created by Vlad Eliseev on 02.11.2024.
 //
 
-import Foundation
+import UIKit
 
 protocol ToolsPanelDelegate: AnyObject {
     
     func didSelectTool(_ tool: Tool)
-    func didSelectColor(_ color: ColorPreset)
+    func didSelectColor(_ color: UIColor)
 }
 
 protocol ToolsPanelViewDelegate: AnyObject {

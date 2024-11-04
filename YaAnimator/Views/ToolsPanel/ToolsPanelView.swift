@@ -33,25 +33,24 @@ final class ToolsPanelView: UIView {
         return sv
     }()
     
+    private let moreColorsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "paintpalette.fill"), for: .normal)
+        button.tintColor = .black
+        button.imageView?.contentMode = .scaleAspectFit
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        return button
+    }()
     private let colorPickerStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
-        sv.alignment = .center
+        sv.distribution = .fillEqually
+        sv.axis = .horizontal
+        sv.alignment = .fill
         sv.spacing = 16
         return sv
-    }()
-    private let colorPickerContainer: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.layer.masksToBounds = true
-        blurEffectView.layer.cornerRadius = 4
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
-        return view
     }()
     
     private var selectedTool: Tool = .pen {
@@ -60,10 +59,10 @@ final class ToolsPanelView: UIView {
             delegate?.didSelectTool(selectedTool)
         }
     }
-    private var selectedColor: ColorPreset = .red {
+    private var selectedColor: ColorSelection = .preset(.red) {
         didSet {
             updateColorPickerButton()
-            delegate?.didSelectColor(selectedColor)
+            delegate?.didSelectColor(selectedColor.uiColor)
         }
     }
     
@@ -86,7 +85,7 @@ final class ToolsPanelView: UIView {
         delegate?.didSelectTool(selectedTool)
         updateSelectedTool()
         
-        delegate?.didSelectColor(selectedColor)
+        delegate?.didSelectColor(selectedColor.uiColor)
         updateColorPickerButton()
     }
     
@@ -99,24 +98,36 @@ final class ToolsPanelView: UIView {
     }
     
     @objc private func openColorSelectorButtonTapped() {
-        parentVC?.showPanelPopover(content: colorPickerContainer, from: toolsStackView)
+        parentVC?.showPanelPopover(content: colorPickerStackView, from: toolsStackView)
     }
     
     @objc private func colorTapped(_ sender: UIButton) {
         guard let selectedColorPreset = ColorPreset(rawValue: sender.tag) else { return }
-        self.selectedColor = selectedColorPreset
+        self.selectedColor = .preset(selectedColorPreset.uiColor)
+    }
+    
+    @objc private func openColorPicker(_ sender: UIButton) {
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.title = "Палитра"
+        colorPicker.supportsAlpha = false
+        colorPicker.delegate = self
+        colorPicker.selectedColor = selectedColor.uiColor
+        colorPicker.modalPresentationStyle = .popover
+        colorPicker.popoverPresentationController?.sourceItem = sender
+        parentVC?.present(colorPicker, animated: true)
     }
     
     private func setup() {
         addSubview(toolsStackView)
         toolsStackView.backgroundColor = .black
         
-        colorPickerContainer.addSubview(colorPickerStackView)
-        
         penButton.addTarget(self, action: #selector(handlePenSelected), for: .touchUpInside)
         eraserButton.addTarget(self, action: #selector(handleEraserSelected), for: .touchUpInside)
         colorPickerButton.addTarget(self, action: #selector(openColorSelectorButtonTapped), for: .touchUpInside)
         
+        moreColorsButton.addTarget(self, action: #selector(openColorPicker), for: .touchUpInside)
+        
+        colorPickerStackView.addArrangedSubview(moreColorsButton)
         for colorPreset in ColorPreset.allCases {
             let button = UIButton()
             button.setImage(
@@ -135,20 +146,16 @@ final class ToolsPanelView: UIView {
             toolsStackView.heightAnchor.constraint(equalToConstant: 32),
             toolsStackView.topAnchor.constraint(equalTo: topAnchor),
 
-            colorPickerStackView.centerXAnchor.constraint(equalTo: colorPickerContainer.centerXAnchor),
-            colorPickerStackView.leadingAnchor.constraint(greaterThanOrEqualTo: colorPickerContainer.leadingAnchor),
-            colorPickerStackView.topAnchor.constraint(equalTo: colorPickerContainer.topAnchor, constant: 16),
-            colorPickerStackView.bottomAnchor.constraint(equalTo: colorPickerContainer.bottomAnchor, constant: -16),
-            colorPickerStackView.trailingAnchor.constraint(lessThanOrEqualTo: colorPickerContainer.trailingAnchor),
             colorPickerStackView.heightAnchor.constraint(equalToConstant: 32),
         ])
     }
     
     private func updateColorPickerButton() {
         colorPickerButton.setImage(
-            UIImage.colorIcon(color: selectedColor.uiColor, isHighlighted: false),
+            UIImage.colorIcon(color: selectedColor.uiColor, isHighlighted: selectedTool == .pen),
             for: .normal
         )
+        moreColorsButton.tintColor = .black
     }
     
     private func updateSelectedTool() {
@@ -165,5 +172,40 @@ final class ToolsPanelView: UIView {
             let image = button.image(for: .normal)?.withTintColor(tintColor)
             button.setImage(image, for: .normal)
         }
+        
+        updateColorPickerButton()
+    }
+}
+
+
+// MARK: - ColorSelection
+extension ToolsPanelView {
+    
+    enum ColorSelection {
+        
+        case preset(UIColor)
+        case palette(UIColor)
+        
+        var uiColor: UIColor {
+            switch self {
+            case .preset(let uIColor):
+                return uIColor
+            case .palette(let uIColor):
+                return uIColor
+            }
+        }
+    }
+}
+
+
+// MARK: - UIColorPickerViewControllerDelegate
+extension ToolsPanelView: UIColorPickerViewControllerDelegate {
+    
+    func colorPickerViewController(
+        _ viewController: UIColorPickerViewController,
+        didSelect color: UIColor,
+        continuously: Bool
+    ) {
+        self.selectedColor = .palette(color)
     }
 }
