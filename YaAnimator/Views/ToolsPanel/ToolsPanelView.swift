@@ -80,14 +80,6 @@ final class ToolsPanelView: UIView {
         return sv
     }()
     
-    private let tipLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = .zero
-        label.text = "Зажмите кнопку удаления и добавления кадра, чтобы открыть меню дополнительных функций"
-        return label
-    }()
-    
     private var selectedTool: Tool = .pen {
         didSet {
             updateSelectedTool()
@@ -133,16 +125,16 @@ final class ToolsPanelView: UIView {
     
     @objc private func handlePenSelected() {
         selectedTool = .pen
-        parentVC?.showPanelPopover(content: brushSizeStackView, from: toolsStackView)
+        parentVC?.showPanelPopover(content: brushSizeStackView, from: toolsStackView, position: .above)
     }
     
     @objc private func handleEraserSelected() {
         selectedTool = .eraser
-        parentVC?.showPanelPopover(content: brushSizeStackView, from: toolsStackView)
+        parentVC?.showPanelPopover(content: brushSizeStackView, from: toolsStackView, position: .above)
     }
     
     @objc private func openColorSelectorButtonTapped() {
-        parentVC?.showPanelPopover(content: colorPickerStackView, from: toolsStackView)
+        parentVC?.showPanelPopover(content: colorPickerStackView, from: toolsStackView, position: .above)
     }
     
     @objc private func colorTapped(_ sender: UIButton) {

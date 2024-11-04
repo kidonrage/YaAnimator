@@ -9,6 +9,12 @@ import UIKit
 
 final class PopupPanelView: UIView {
     
+    enum Position {
+        
+        case above
+        case below
+    }
+    
     private let testPanelView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +31,7 @@ final class PopupPanelView: UIView {
     private let contentView: UIView
     private let anchorView: UIView
     
+    private let position: Position
     private var isDismissing: Bool = false
     
     weak var presentingViewController: UIViewController?
@@ -32,7 +39,8 @@ final class PopupPanelView: UIView {
     init(
         contentView: UIView,
         anchorView: UIView,
-        presentingViewController: UIViewController
+        presentingViewController: UIViewController,
+        position: Position
     ) {
         self.contentView = contentView
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,6 +50,7 @@ final class PopupPanelView: UIView {
                 anchorView.frame, to: presentingViewController.view
             ) ?? .zero
         )
+        self.position = position
         
         super.init(frame: .zero)
         
@@ -53,9 +62,20 @@ final class PopupPanelView: UIView {
         addSubview(contentView)
         addSubview(anchorView)
         
+        let contentPositionConstraints: [NSLayoutConstraint]
+        switch position {
+        case .above:
+            contentPositionConstraints = [
+                contentView.bottomAnchor.constraint(equalTo: anchorView.topAnchor, constant: -24)
+            ]
+        case .below:
+            contentPositionConstraints = [
+                contentView.topAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: 24)
+            ]
+        }
+        
         NSLayoutConstraint.activate([
             contentView.centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
-            contentView.bottomAnchor.constraint(equalTo: anchorView.topAnchor, constant: -24),
             contentView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 24),
             contentView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -24),
             
@@ -63,7 +83,7 @@ final class PopupPanelView: UIView {
             testPanelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -16),
             testPanelView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 16),
             testPanelView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 16),
-        ])
+        ] + contentPositionConstraints)
     }
     
     required init?(coder: NSCoder) {
@@ -103,8 +123,13 @@ final class PopupPanelView: UIView {
 // MARK: - UIViewController+showPanelPopover
 extension UIViewController {
     
-    func showPanelPopover(content: UIView, from anchorView: UIView) {
-        let panel = PopupPanelView(contentView: content, anchorView: anchorView, presentingViewController: self)
+    func showPanelPopover(content: UIView, from anchorView: UIView, position: PopupPanelView.Position) {
+        let panel = PopupPanelView(
+            contentView: content,
+            anchorView: anchorView,
+            presentingViewController: self,
+            position: position
+        )
         panel.alpha = 0.0
         panel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(panel)

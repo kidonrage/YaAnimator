@@ -276,6 +276,7 @@ class ViewController: UIViewController {
     
     @objc private func deleteFrameTapped() {
         framesManager.deleteCurrentFrame()
+        showButtonsHintIfNeeded()
     }
     
     @objc private func undo() {
@@ -290,6 +291,7 @@ class ViewController: UIViewController {
     
     @objc private func handleAddFrameTapped() {
         framesManager.addFrame()
+        showButtonsHintIfNeeded()
     }
     
     @objc private func handleCopyFrameTapped() {
@@ -326,6 +328,24 @@ class ViewController: UIViewController {
                 spinner.hide()
             }
         }
+    }
+    
+    private func showButtonsHintIfNeeded() {
+        let ud = UserDefaults.standard
+        let flagKey = "buttonsHintPresented"
+        let isHintPresented = ud.bool(forKey: flagKey)
+        
+        guard !isHintPresented else { return }
+        
+        let tipLabel = UILabel()
+        tipLabel.font = .systemFont(ofSize: 12)
+        tipLabel.textColor = .black
+        tipLabel.translatesAutoresizingMaskIntoConstraints = false
+        tipLabel.numberOfLines = .zero
+        tipLabel.text = "Зажмите кнопку удаления и добавления кадра, чтобы открыть меню дополнительных функций"
+        showPanelPopover(content: tipLabel, from: topToolsStackView, position: .below)
+        
+        ud.setValue(true, forKey: flagKey)
     }
     
     private func updateCanvas(withSelectedFrame frame: Frame) {
