@@ -50,6 +50,12 @@ final class FramesManager {
         selectedFrameIndex = frames.count - 1
     }
     
+    func addFrames(_ framesToAdd: [Frame]) {
+        guard !framesToAdd.isEmpty else { return }
+        frames.append(contentsOf: framesToAdd)
+        selectedFrameIndex = frames.count - 1
+    }
+    
     @discardableResult
     func addFrame(id: UUID) -> Frame {
         let frame = Frame(id: id)

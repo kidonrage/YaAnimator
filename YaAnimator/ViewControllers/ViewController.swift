@@ -173,6 +173,9 @@ class ViewController: UIViewController {
             UIAction(title: "Скопировать кадр", handler: { [weak self] action in
                 self?.handleCopyFrameTapped()
             }),
+            UIAction(title: "Сгенерировать кадры", handler: { [weak self] action in
+                self?.handleGenerateFramesTapped()
+            })
         ])
         addFrameButton.menu = addFrameMenu
         
@@ -287,6 +290,14 @@ class ViewController: UIViewController {
     
     @objc private func handleCopyFrameTapped() {
         canvasView.copyCanvasContentToNewFrame()
+    }
+    
+    private func handleGenerateFramesTapped() {
+        // TODO: Alert with input
+        
+        let generator = FramesGenerator()
+        let framesToAdd = generator.generateExampleFrames(count: 100, canvasSize: canvasView.frame.size)
+        framesManager.addFrames(framesToAdd)
     }
     
     private func updateCanvas(withSelectedFrame frame: Frame) {

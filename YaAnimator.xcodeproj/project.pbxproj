@@ -10,6 +10,7 @@
 		C61D7B062CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */; };
 		C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */; };
 		C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B092CD2CD7800A79DAD /* FramesManager.swift */; };
+		C63DFFC72CD91CC80049D1ED /* FramesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */; };
 		C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9D2CD153F000CF666F /* AppDelegate.swift */; };
 		C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9F2CD153F000CF666F /* SceneDelegate.swift */; };
 		C6401AA22CD153F000CF666F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AA12CD153F000CF666F /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 		C61D7B052CD2BBD700A79DAD /* FrameCanvasViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCanvasViewDelegate.swift; sourceTree = "<group>"; };
 		C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesTableViewController.swift; sourceTree = "<group>"; };
 		C61D7B092CD2CD7800A79DAD /* FramesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesManager.swift; sourceTree = "<group>"; };
+		C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesGenerator.swift; sourceTree = "<group>"; };
 		C6401A9A2CD153F000CF666F /* YaAnimator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YaAnimator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6401A9D2CD153F000CF666F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6401A9F2CD153F000CF666F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				C61D7B092CD2CD7800A79DAD /* FramesManager.swift */,
 				C6C299582CD435DF00B10BBC /* AnimationDemoManager.swift */,
 				C6EB9F9D2CD8DBE200F96D4A /* GifService.swift */,
+				C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				C6EB9F9C2CD8D0A800F96D4A /* UIViewController+communication.swift in Sources */,
 				C6EB9F942CD7FF1600F96D4A /* CGPath+boundingBox.swift in Sources */,
 				C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */,
+				C63DFFC72CD91CC80049D1ED /* FramesGenerator.swift in Sources */,
 				C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */,
 				C6EB9F862CD5856600F96D4A /* ColorPreset.swift in Sources */,
 				C6EB9F882CD58A9000F96D4A /* UIColor+init.swift in Sources */,
@@ -442,6 +446,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RNXT6P5KC8;
@@ -458,8 +463,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vladEliseev.YaAnimator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladEliseev.YaAnimatorr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -471,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RNXT6P5KC8;
@@ -487,8 +494,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.vladEliseev.YaAnimator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladEliseev.YaAnimatorr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
