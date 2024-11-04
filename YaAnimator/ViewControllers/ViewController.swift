@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     private lazy var canvasView: FrameCanvasView = {
         let view = FrameCanvasView(initialFrame: framesManager.frames[0])
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
         return view
     }()
     
