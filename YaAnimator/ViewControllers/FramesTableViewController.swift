@@ -114,7 +114,7 @@ extension FramesTableViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! FrameTableViewCell
         let frame = framesManager.frames[indexPath.row]
-        cell.configure(frame: frame, frameTitle: "Frame \(indexPath.row)")
+        cell.configure(frame: frame, frameTitle: "Frame \(indexPath.row + 1)")
         return cell
     }
     
