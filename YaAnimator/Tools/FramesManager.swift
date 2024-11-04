@@ -80,14 +80,3 @@ final class FramesManager {
     }
 }
 
-extension FileManager {
-    
-    func getTemproraryFilesDirectory() -> URL {
-        return URL(fileURLWithPath: NSTemporaryDirectory(),
-                  isDirectory: true)
-    }
-    
-    func sourceForFrame(withId frameId: UUID) -> URL {
-        getTemproraryFilesDirectory().appendingPathComponent("\(frameId.uuidString).png")
-    }
-}

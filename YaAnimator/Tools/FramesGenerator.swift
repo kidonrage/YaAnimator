@@ -17,66 +17,70 @@ final class FramesGenerator {
 
     private let painter = Painter()
     
-    func generateExampleFrames(count: Int, canvasSize: CGSize) -> [Frame] {
-        
-        let heartStep = 0.05
-        let canvasHalfWidth = canvasSize.width / 2
-        let canvasHalfHeight = canvasSize.height / 2
-        let canvasScaleHorizontal = canvasSize.width / exampleCanvasSize.width
-        let canvasScaleVertical = canvasSize.height / exampleCanvasSize.height
-        let scaledHeartCoords = heartCoords.map { CGPoint(x: $0.x * canvasScaleHorizontal, y: $0.y * canvasScaleVertical) }
-        let scaledLetterCoords = letterCoords.map { CGPoint(x: $0.x * canvasScaleHorizontal, y: $0.y * canvasScaleVertical) }
-        
-        var result = [Frame]()
-        var heartScaleFactor: CGFloat = 1
-        var isHeartScalingDown = true
-        var heartColor: UIColor = ColorPreset.blue.uiColor
-        for number in 0 ..< count {
-            // detect if scaling up or down
-            let updatedIsHeartScalingDown = (number / 10) % 2 == 0
-            // detecting if scale direction changed and change color
-            if updatedIsHeartScalingDown != isHeartScalingDown {
-                heartColor = .random()
+    func generateExampleFrames(count: Int, canvasSize: CGSize, completion: @escaping ([Frame]) -> Void) {
+        DispatchQueue.global().async {
+            let heartStep = 0.05
+            let canvasHalfWidth = canvasSize.width / 2
+            let canvasHalfHeight = canvasSize.height / 2
+            let canvasScaleHorizontal = canvasSize.width / self.exampleCanvasSize.width
+            let canvasScaleVertical = canvasSize.height / self.exampleCanvasSize.height
+            let scaledHeartCoords = self.heartCoords.map { CGPoint(x: $0.x * canvasScaleHorizontal, y: $0.y * canvasScaleVertical) }
+            let scaledLetterCoords = self.letterCoords.map { CGPoint(x: $0.x * canvasScaleHorizontal, y: $0.y * canvasScaleVertical) }
+            
+            var result = [Frame]()
+            var heartScaleFactor: CGFloat = 1
+            var isHeartScalingDown = true
+            var heartColor: UIColor = ColorPreset.blue.uiColor
+            for number in 0 ..< count {
+                autoreleasepool {
+                    // detect if scaling up or down
+                    let updatedIsHeartScalingDown = (number / 10) % 2 == 0
+                    // detecting if scale direction changed and change color
+                    if updatedIsHeartScalingDown != isHeartScalingDown {
+                        heartColor = .random()
+                    }
+                    isHeartScalingDown = updatedIsHeartScalingDown
+                    // setup heart drawing action
+                    if isHeartScalingDown {
+                        heartScaleFactor -= heartStep
+                    } else {
+                        heartScaleFactor += heartStep
+                    }
+                    let scaledHeartCoordsRelativeToCenter = scaledHeartCoords.map {
+                        CGPoint(
+                            x: (($0.x - canvasHalfWidth) * heartScaleFactor) + canvasHalfWidth,
+                            y: (($0.y - canvasHalfHeight) * heartScaleFactor) + canvasHalfHeight
+                        )
+                    }
+                    let drawHeartAction = Action(tool: .pen, selectedColor: heartColor, selectedBrushSize: 14, points: scaledHeartCoordsRelativeToCenter)
+                    
+                    // setup letter drawing action
+                    let drawLetterAction = Action(tool: .pen, selectedColor: ColorPreset.red.uiColor, selectedBrushSize: 10, points: scaledLetterCoords)
+                    
+                    // setup frame and draw
+                    let frame = Frame()
+                    
+                    UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0.0)
+                    
+                    guard let ctx = UIGraphicsGetCurrentContext() else { return }
+                    
+                    self.painter.draw(action: drawHeartAction, context: ctx)
+                    self.painter.draw(action: drawLetterAction, context: ctx)
+                    
+                    let image = UIGraphicsGetImageFromCurrentImageContext()
+                    UIGraphicsEndImageContext()
+                    
+                    do {
+                        try image?.pngData()?.write(to: frame.frameSource)
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                    
+                    result.append(frame)
+                }
             }
-            isHeartScalingDown = updatedIsHeartScalingDown
-            // setup heart drawing action
-            if isHeartScalingDown {
-                heartScaleFactor -= heartStep
-            } else {
-                heartScaleFactor += heartStep
-            }
-            let scaledHeartCoordsRelativeToCenter = scaledHeartCoords.map {
-                CGPoint(
-                    x: (($0.x - canvasHalfWidth) * heartScaleFactor) + canvasHalfWidth,
-                    y: (($0.y - canvasHalfHeight) * heartScaleFactor) + canvasHalfHeight
-                )
-            }
-            let drawHeartAction = Action(tool: .pen, selectedColor: heartColor, selectedBrushSize: 14, points: scaledHeartCoordsRelativeToCenter)
             
-            // setup letter drawing action
-            let drawLetterAction = Action(tool: .pen, selectedColor: ColorPreset.red.uiColor, selectedBrushSize: 10, points: scaledLetterCoords)
-            
-            // setup frame and draw
-            let frame = Frame()
-            
-            UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0.0)
-            
-            guard let ctx = UIGraphicsGetCurrentContext() else { continue }
-            
-            painter.draw(action: drawHeartAction, context: ctx)
-            painter.draw(action: drawLetterAction, context: ctx)
-            
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            do {
-                try image?.pngData()?.write(to: frame.frameSource)
-            } catch {
-                fatalError(error.localizedDescription)
-            }
-            
-            result.append(frame)
+            completion(result)
         }
-        return result
     }
 }

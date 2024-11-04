@@ -12,49 +12,49 @@ final class GifService {
     
     func saveGif(fromFrames frames: [Frame], fps: Double, completion: @escaping (URL?) -> Void) {
         DispatchQueue.global().async {
-            let imagesData = frames.compactMap {
-                return try? Data(contentsOf: $0.frameSource)
-            }
-            DispatchQueue.main.async {
-                let images = imagesData.compactMap { UIImage(data: $0) }
-                let gifURL = self.saveAnimatedGif(
-                    from: images, fps: fps
+            let fileProperties: CFDictionary = [
+                kCGImagePropertyGIFDictionary: [kCGImagePropertyGIFLoopCount: 0]
+            ] as CFDictionary
+            let frameProperties: CFDictionary = [
+                kCGImagePropertyGIFDictionary: [kCGImagePropertyGIFDelayTime: 1 / fps]
+            ] as CFDictionary
+            
+            let fileURL: URL? = FileManager.default.getDocumentsDirectory().appendingPathComponent("animation.gif")
+            
+            guard
+                let url = fileURL as CFURL?,
+                let destination = CGImageDestinationCreateWithURL(
+                    url, UTType.gif.identifier as CFString, frames.count, nil
                 )
-                completion(gifURL)
+            else {
+                completion(nil)
+                return
             }
-        }
-    }
-    
-    private func saveAnimatedGif(from images: [UIImage], fps: Double) -> URL? {
-        let fileProperties: CFDictionary = [
-            kCGImagePropertyGIFDictionary: [kCGImagePropertyGIFLoopCount: 0]
-        ] as CFDictionary
-        let frameProperties: CFDictionary = [
-            kCGImagePropertyGIFDictionary: [kCGImagePropertyGIFDelayTime: 1 / fps]
-        ] as CFDictionary
-        
-        let fileURL: URL? = FileManager.default.temporaryDirectory.appendingPathComponent("animation.gif")
-        
-        guard
-            let url = fileURL as CFURL?,
-            let destination = CGImageDestinationCreateWithURL(
-                url, UTType.gif.identifier as CFString, images.count, nil
-            )
-        else { return nil }
-        
-        CGImageDestinationSetProperties(destination, fileProperties)
-        
-        for image in images {
-            if let cgImage = image.cgImage {
-                CGImageDestinationAddImage(destination, cgImage, frameProperties)
+            
+            CGImageDestinationSetProperties(destination, fileProperties)
+            
+            for frame in frames {
+                autoreleasepool {
+                    do {
+                        let imageData = try Data(contentsOf: frame.frameSource)
+                        let image = UIImage(data: imageData)
+                        if let cgImage = image?.cgImage {
+                            CGImageDestinationAddImage(destination, cgImage, frameProperties)
+                        }
+                    } catch {
+                        debugPrint(error.localizedDescription)
+                        return
+                    }
+                }
             }
+            
+            guard CGImageDestinationFinalize(destination) else {
+                debugPrint("Finalization of gif failed")
+                completion(nil)
+                return
+            }
+            
+            completion(fileURL)
         }
-        
-        guard CGImageDestinationFinalize(destination) else {
-            debugPrint("Finalization of gif failed")
-            return nil
-        }
-        
-        return fileURL
     }
 }

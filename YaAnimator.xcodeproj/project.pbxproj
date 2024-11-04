@@ -11,6 +11,7 @@
 		C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */; };
 		C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B092CD2CD7800A79DAD /* FramesManager.swift */; };
 		C63DFFC72CD91CC80049D1ED /* FramesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */; };
+		C63DFFC92CD94F800049D1ED /* FileManager+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63DFFC82CD94F800049D1ED /* FileManager+ext.swift */; };
 		C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9D2CD153F000CF666F /* AppDelegate.swift */; };
 		C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9F2CD153F000CF666F /* SceneDelegate.swift */; };
 		C6401AA22CD153F000CF666F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AA12CD153F000CF666F /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 		C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesTableViewController.swift; sourceTree = "<group>"; };
 		C61D7B092CD2CD7800A79DAD /* FramesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesManager.swift; sourceTree = "<group>"; };
 		C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesGenerator.swift; sourceTree = "<group>"; };
+		C63DFFC82CD94F800049D1ED /* FileManager+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+ext.swift"; sourceTree = "<group>"; };
 		C6401A9A2CD153F000CF666F /* YaAnimator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YaAnimator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6401A9D2CD153F000CF666F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6401A9F2CD153F000CF666F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */,
 				C6EB9F972CD8294400F96D4A /* UIView+ext.swift */,
 				C6EB9F9B2CD8D0A800F96D4A /* UIViewController+communication.swift */,
+				C63DFFC82CD94F800049D1ED /* FileManager+ext.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */,
 				C66E91152CD3F8FD00B48990 /* Frame.swift in Sources */,
 				C6EB9F8A2CD58B3C00F96D4A /* UIColor+constants.swift in Sources */,
+				C63DFFC92CD94F800049D1ED /* FileManager+ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -244,15 +244,17 @@ class ViewController: UIViewController {
             fromFrames: framesManager.frames, 
             fps: animationDemoManager.fps
         ) { [weak self] gifURL in
-            guard let gifURL else {
-                self?.showMessageWithOk(title: "Что-то пошло не так", message: nil)
-                return
+            DispatchQueue.main.async {
+                guard let gifURL else {
+                    self?.showMessageWithOk(title: "Что-то пошло не так", message: nil)
+                    return
+                }
+                
+                let activityViewController = UIActivityViewController(
+                    activityItems: [gifURL], applicationActivities: nil
+                )
+                self?.present(activityViewController, animated: true, completion: nil)
             }
-            
-            let activityViewController = UIActivityViewController(
-                activityItems: [gifURL], applicationActivities: nil
-            )
-            self?.present(activityViewController, animated: true, completion: nil)
         }
     }
     
@@ -296,8 +298,11 @@ class ViewController: UIViewController {
         // TODO: Alert with input
         
         let generator = FramesGenerator()
-        let framesToAdd = generator.generateExampleFrames(count: 100, canvasSize: canvasView.frame.size)
-        framesManager.addFrames(framesToAdd)
+        generator.generateExampleFrames(count: 100, canvasSize: canvasView.frame.size) { generatedFrames in
+            DispatchQueue.main.async {
+                self.framesManager.addFrames(generatedFrames)
+            }
+        }
     }
     
     private func updateCanvas(withSelectedFrame frame: Frame) {
