@@ -295,12 +295,33 @@ class ViewController: UIViewController {
     }
     
     private func handleGenerateFramesTapped() {
-        // TODO: Alert with input
+        let alertController = UIAlertController(title: "Введите количество кадров", message: nil, preferredStyle: .alert)
         
+        alertController.addTextField { textField in
+            textField.placeholder = "10"
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Сгенерировать", style: .default, handler: { [weak self] _ in
+            guard
+                let numberString = alertController.textFields?.first?.text,
+                let number = Int(numberString)
+            else {
+                return
+            }
+            self?.generateFrames(count: number)
+        }))
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .default))
+        
+        present(alertController, animated: true)
+    }
+    
+    private func generateFrames(count: Int) {
+        let spinner = showSpinnerView()
         let generator = FramesGenerator()
-        generator.generateExampleFrames(count: 100, canvasSize: canvasView.frame.size) { generatedFrames in
+        generator.generateExampleFrames(count: count, canvasSize: canvasView.frame.size) { generatedFrames in
             DispatchQueue.main.async {
                 self.framesManager.addFrames(generatedFrames)
+                spinner.hide()
             }
         }
     }

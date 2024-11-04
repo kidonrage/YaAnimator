@@ -12,6 +12,7 @@
 		C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D7B092CD2CD7800A79DAD /* FramesManager.swift */; };
 		C63DFFC72CD91CC80049D1ED /* FramesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */; };
 		C63DFFC92CD94F800049D1ED /* FileManager+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63DFFC82CD94F800049D1ED /* FileManager+ext.swift */; };
+		C63DFFCB2CD955A90049D1ED /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63DFFCA2CD955A90049D1ED /* SpinnerViewController.swift */; };
 		C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9D2CD153F000CF666F /* AppDelegate.swift */; };
 		C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401A9F2CD153F000CF666F /* SceneDelegate.swift */; };
 		C6401AA22CD153F000CF666F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6401AA12CD153F000CF666F /* ViewController.swift */; };
@@ -47,6 +48,7 @@
 		C61D7B092CD2CD7800A79DAD /* FramesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesManager.swift; sourceTree = "<group>"; };
 		C63DFFC62CD91CC80049D1ED /* FramesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesGenerator.swift; sourceTree = "<group>"; };
 		C63DFFC82CD94F800049D1ED /* FileManager+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+ext.swift"; sourceTree = "<group>"; };
+		C63DFFCA2CD955A90049D1ED /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
 		C6401A9A2CD153F000CF666F /* YaAnimator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YaAnimator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6401A9D2CD153F000CF666F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6401A9F2CD153F000CF666F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			children = (
 				C61D7B072CD2C85200A79DAD /* FramesTableViewController.swift */,
 				C6401AA12CD153F000CF666F /* ViewController.swift */,
+				C63DFFCA2CD955A90049D1ED /* SpinnerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				C6401AA22CD153F000CF666F /* ViewController.swift in Sources */,
 				C6EB9F962CD8286F00F96D4A /* AnimationSpeedSliderView.swift in Sources */,
 				C6EB9F842CD5847E00F96D4A /* ToolsPanelDelegate.swift in Sources */,
+				C63DFFCB2CD955A90049D1ED /* SpinnerViewController.swift in Sources */,
 				C6EB9F902CD6B1B100F96D4A /* PopupPanelView.swift in Sources */,
 				C6401AB62CD17E3100CF666F /* Action.swift in Sources */,
 				C6401AB42CD1552B00CF666F /* Painter.swift in Sources */,

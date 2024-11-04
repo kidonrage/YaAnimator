@@ -25,7 +25,7 @@ final class AnimationDemoManager {
     private var animatedFrames: [Frame] = []
     private var animationDemoTimer: Timer?
     
-    var fps: TimeInterval = 1
+    var fps: TimeInterval = 12
     
     weak var delegate: AnimationDemoManagerDelegate?
     
