@@ -27,44 +27,42 @@ final class FramesGenerator {
         
         var result = [Frame]()
         var temp: CGFloat = 1
-        for number in stride(from: 0, to: count, by: 10) {
+        for number in 0 ..< count {
             let isHeartScalingDown = (number / 10) % 2 == 0
-            for _ in 0 ..< 10 {
-                if isHeartScalingDown {
-                    temp -= heartStep
-                } else {
-                    temp += heartStep
-                }
-                let scaledHeartCoordsRelativeToCenter = scaledHeartCoords.map {
-                    CGPoint(
-                        x: (($0.x - canvasHalfWidth) * temp) + canvasHalfWidth,
-                        y: (($0.y - canvasHalfHeight) * temp) + canvasHalfHeight
-                    )
-                }
-                let drawHeartAction = Action(tool: .pen, selectedColor: .random(), selectedBrushSize: 14, points: scaledHeartCoordsRelativeToCenter)
-                
-                // todo: letter and change colors
-                
-                
-                let frame = Frame()
-                
-                UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0.0)
-                
-                guard let ctx = UIGraphicsGetCurrentContext() else { continue }
-                
-                painter.draw(action: drawHeartAction, context: ctx)
-                
-                let image = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                
-                do {
-                    try image?.pngData()?.write(to: frame.frameSource)
-                } catch {
-                    fatalError(error.localizedDescription)
-                }
-                
-                result.append(frame)
+            if isHeartScalingDown {
+                temp -= heartStep
+            } else {
+                temp += heartStep
             }
+            let scaledHeartCoordsRelativeToCenter = scaledHeartCoords.map {
+                CGPoint(
+                    x: (($0.x - canvasHalfWidth) * temp) + canvasHalfWidth,
+                    y: (($0.y - canvasHalfHeight) * temp) + canvasHalfHeight
+                )
+            }
+            let drawHeartAction = Action(tool: .pen, selectedColor: .random(), selectedBrushSize: 14, points: scaledHeartCoordsRelativeToCenter)
+            
+            // todo: letter and change colors
+            
+            
+            let frame = Frame()
+            
+            UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0.0)
+            
+            guard let ctx = UIGraphicsGetCurrentContext() else { continue }
+            
+            painter.draw(action: drawHeartAction, context: ctx)
+            
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            do {
+                try image?.pngData()?.write(to: frame.frameSource)
+            } catch {
+                fatalError(error.localizedDescription)
+            }
+            
+            result.append(frame)
         }
         return result
     }
