@@ -13,7 +13,6 @@ final class GifService {
     func saveGif(fromFrames frames: [Frame], fps: Double, completion: @escaping (URL?) -> Void) {
         DispatchQueue.global().async {
             let imagesData = frames.compactMap {
-                sleep(1)
                 return try? Data(contentsOf: $0.frameSource)
             }
             DispatchQueue.main.async {

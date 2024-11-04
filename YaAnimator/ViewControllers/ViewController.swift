@@ -52,6 +52,9 @@ class ViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         button.tintColor = .white
+        button.imageView?.contentMode = .scaleAspectFit
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
         return button
     }()
     private let playButton: UIButton = {
@@ -67,8 +70,9 @@ class ViewController: UIViewController {
     private lazy var playPausePanel: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [shareButton, pauseButton, playButton])
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.distribution = .fillEqually
         sv.axis = .horizontal
-        sv.alignment = .center
+        sv.alignment = .fill
         sv.spacing = 8
         return sv
     }()
@@ -182,6 +186,7 @@ class ViewController: UIViewController {
         updateUndoRedoButtons()
         
         updateIsControlsHidden(false)
+        didEndAnimationPlaying()
         
         NSLayoutConstraint.activate([
             topToolsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
