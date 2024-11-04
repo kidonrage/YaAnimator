@@ -9,10 +9,8 @@ import UIKit
 
 class Painter {
     
-    private let brushSize: CGFloat = 15
-    
     func draw(action: Action, context ctx: CGContext) {
-        let lineWidth: CGFloat = brushSize
+        let lineWidth: CGFloat = action.selectedBrushSize
         
         // todo: refactor
         let color: CGColor = getColor(forAction: action)

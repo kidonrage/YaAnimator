@@ -35,6 +35,7 @@ final class PopupPanelView: UIView {
         presentingViewController: UIViewController
     ) {
         self.contentView = contentView
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         self.presentingViewController = presentingViewController
         self.anchorView = UIView(
             frame: anchorView.superview?.convert(
@@ -55,6 +56,8 @@ final class PopupPanelView: UIView {
         NSLayoutConstraint.activate([
             contentView.centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
             contentView.bottomAnchor.constraint(equalTo: anchorView.topAnchor, constant: -24),
+            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 24),
+            contentView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -24),
             
             testPanelView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -16),
             testPanelView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -16),

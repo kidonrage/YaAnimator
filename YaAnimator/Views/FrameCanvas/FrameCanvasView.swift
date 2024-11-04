@@ -18,6 +18,7 @@ final class FrameCanvasView: UIView {
     
     private var selectedTool: Tool!
     private var selectedColor: UIColor!
+    private var selectedBrushSize: CGFloat!
     
     private var previousPoint1: CGPoint?
     private var previousPoint2: CGPoint?
@@ -129,6 +130,7 @@ final class FrameCanvasView: UIView {
         actionInProgress = Action(
             tool: selectedTool,
             selectedColor: selectedColor,
+            selectedBrushSize: selectedBrushSize,
             startingPoint: currentPoint!
         )
     }
@@ -172,6 +174,10 @@ final class FrameCanvasView: UIView {
 
 // MARK: - ToolsPanelDelegate
 extension FrameCanvasView: ToolsPanelDelegate {
+    
+    func didSelectBrushSize(_ brushSize: CGFloat) {
+        self.selectedBrushSize = brushSize
+    }
     
     func didSelectTool(_ tool: Tool) {
         self.selectedTool = tool

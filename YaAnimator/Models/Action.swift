@@ -11,14 +11,16 @@ struct Action {
     
     let tool: Tool
     let selectedColor: UIColor
+    let selectedBrushSize: CGFloat
     private(set) var path: CGMutablePath
     
-    init(tool: Tool, selectedColor: UIColor, startingPoint: CGPoint) {
+    init(tool: Tool, selectedColor: UIColor, selectedBrushSize: CGFloat, startingPoint: CGPoint) {
         self.tool = tool
         
         let path = CGMutablePath()
         path.move(to: startingPoint)
         self.path = path
+        self.selectedBrushSize = selectedBrushSize
         self.selectedColor = selectedColor
     }
     
@@ -27,8 +29,6 @@ struct Action {
         prevPointA: CGPoint,
         prevPointB: CGPoint
     ) -> CGRect {
-        let lineWidth: CGFloat = 15
-        
         let subpath = CGPath.makeSubpath(
             cgPoint: point,
             previousPoint1: prevPointA,
@@ -37,7 +37,7 @@ struct Action {
         
         path.addPath(subpath)
         
-        return subpath.getExpandedBoundingBox(lineWidth: lineWidth)
+        return subpath.getExpandedBoundingBox(lineWidth: selectedBrushSize)
     }
 }
 

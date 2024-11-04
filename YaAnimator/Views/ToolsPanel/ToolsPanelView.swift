@@ -53,6 +53,41 @@ final class ToolsPanelView: UIView {
         return sv
     }()
     
+    private let brushSizeMinValueImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    private let brushSizeSlider: UISlider = {
+        let slider = UISlider()
+        slider.minimumValue = Float(AppConstants.BrushSize.min)
+        slider.maximumValue = Float(AppConstants.BrushSize.max)
+        return slider
+    }()
+    private let brushSizeMaxValueImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    private lazy var brushSizeStackView: UIStackView = {
+        let sv = UIStackView(
+            arrangedSubviews: [brushSizeMinValueImageView, brushSizeSlider, brushSizeMaxValueImageView]
+        )
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.distribution = .fill
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 16
+        return sv
+    }()
+    
+    private let tipLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = .zero
+        label.text = "Зажмите кнопку удаления и добавления кадра, чтобы открыть меню дополнительных функций"
+        return label
+    }()
+    
     private var selectedTool: Tool = .pen {
         didSet {
             updateSelectedTool()
@@ -61,8 +96,13 @@ final class ToolsPanelView: UIView {
     }
     private var selectedColor: ColorSelection = .preset(.red) {
         didSet {
-            updateColorPickerButton()
+            updateSelectedColorRelatedUI()
             delegate?.didSelectColor(selectedColor.uiColor)
+        }
+    }
+    private var brushSize: Double = 15 {
+        didSet {
+            delegate?.didSelectBrushSize(brushSize)
         }
     }
     
@@ -86,15 +126,19 @@ final class ToolsPanelView: UIView {
         updateSelectedTool()
         
         delegate?.didSelectColor(selectedColor.uiColor)
-        updateColorPickerButton()
+        updateSelectedColorRelatedUI()
+        
+        delegate?.didSelectBrushSize(brushSize)
     }
     
     @objc private func handlePenSelected() {
         selectedTool = .pen
+        parentVC?.showPanelPopover(content: brushSizeStackView, from: toolsStackView)
     }
     
     @objc private func handleEraserSelected() {
         selectedTool = .eraser
+        parentVC?.showPanelPopover(content: brushSizeStackView, from: toolsStackView)
     }
     
     @objc private func openColorSelectorButtonTapped() {
@@ -117,6 +161,10 @@ final class ToolsPanelView: UIView {
         parentVC?.present(colorPicker, animated: true)
     }
     
+    @objc private func handleBrushSizeChanged(_ sender: UISlider) {
+        self.brushSize = Double(sender.value)
+    }
+    
     private func setup() {
         addSubview(toolsStackView)
         toolsStackView.backgroundColor = .black
@@ -126,6 +174,9 @@ final class ToolsPanelView: UIView {
         colorPickerButton.addTarget(self, action: #selector(openColorSelectorButtonTapped), for: .touchUpInside)
         
         moreColorsButton.addTarget(self, action: #selector(openColorPicker), for: .touchUpInside)
+        
+        brushSizeSlider.value = Float(brushSize)
+        brushSizeSlider.addTarget(self, action: #selector(handleBrushSizeChanged), for: .valueChanged)
         
         colorPickerStackView.addArrangedSubview(moreColorsButton)
         for colorPreset in ColorPreset.allCases {
@@ -147,15 +198,41 @@ final class ToolsPanelView: UIView {
             toolsStackView.topAnchor.constraint(equalTo: topAnchor),
 
             colorPickerStackView.heightAnchor.constraint(equalToConstant: 32),
+            
+            brushSizeSlider.widthAnchor.constraint(equalToConstant: 164),
+            
+            brushSizeMinValueImageView.heightAnchor.constraint(equalToConstant: AppConstants.BrushSize.min),
+            brushSizeMinValueImageView.widthAnchor.constraint(equalToConstant: AppConstants.BrushSize.min),
+            
+            brushSizeMaxValueImageView.heightAnchor.constraint(equalToConstant: AppConstants.BrushSize.max),
+            brushSizeMaxValueImageView.widthAnchor.constraint(equalToConstant: AppConstants.BrushSize.max),
         ])
     }
     
-    private func updateColorPickerButton() {
+    private func updateSelectedColorRelatedUI() {
+        let isColorHighlighted: Bool
+        let brushSizeImage: UIImage?
+        let brushSizeSliderTint: UIColor
+        switch selectedTool {
+        case .pen:
+            isColorHighlighted = true
+            brushSizeImage = .colorIcon(color: selectedColor.uiColor, isHighlighted: false)
+            brushSizeSliderTint = selectedColor.uiColor
+        case .eraser:
+            isColorHighlighted = false
+            brushSizeImage = .colorIcon(color: .gray, isHighlighted: false)
+            brushSizeSliderTint = .buttonAccent
+        }
+        
         colorPickerButton.setImage(
-            UIImage.colorIcon(color: selectedColor.uiColor, isHighlighted: selectedTool == .pen),
+            UIImage.colorIcon(color: selectedColor.uiColor, isHighlighted: isColorHighlighted),
             for: .normal
         )
         moreColorsButton.tintColor = .black
+
+        brushSizeMaxValueImageView.image = brushSizeImage
+        brushSizeMinValueImageView.image = brushSizeImage
+        brushSizeSlider.minimumTrackTintColor = brushSizeSliderTint
     }
     
     private func updateSelectedTool() {
@@ -173,7 +250,7 @@ final class ToolsPanelView: UIView {
             button.setImage(image, for: .normal)
         }
         
-        updateColorPickerButton()
+        updateSelectedColorRelatedUI()
     }
 }
 

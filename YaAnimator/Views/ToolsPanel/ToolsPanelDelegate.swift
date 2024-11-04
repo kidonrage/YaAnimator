@@ -11,6 +11,7 @@ protocol ToolsPanelDelegate: AnyObject {
     
     func didSelectTool(_ tool: Tool)
     func didSelectColor(_ color: UIColor)
+    func didSelectBrushSize(_ brushSize: CGFloat)
 }
 
 protocol ToolsPanelViewDelegate: AnyObject {
