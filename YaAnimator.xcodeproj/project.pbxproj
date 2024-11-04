@@ -34,6 +34,8 @@
 		C6EB9F942CD7FF1600F96D4A /* CGPath+boundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */; };
 		C6EB9F962CD8286F00F96D4A /* AnimationSpeedSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F952CD8286F00F96D4A /* AnimationSpeedSliderView.swift */; };
 		C6EB9F982CD8294400F96D4A /* UIView+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F972CD8294400F96D4A /* UIView+ext.swift */; };
+		C6EB9F9C2CD8D0A800F96D4A /* UIViewController+communication.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F9B2CD8D0A800F96D4A /* UIViewController+communication.swift */; };
+		C6EB9F9E2CD8DBE200F96D4A /* GifService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EB9F9D2CD8DBE200F96D4A /* GifService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		C6EB9F932CD7FF1600F96D4A /* CGPath+boundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPath+boundingBox.swift"; sourceTree = "<group>"; };
 		C6EB9F952CD8286F00F96D4A /* AnimationSpeedSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSpeedSliderView.swift; sourceTree = "<group>"; };
 		C6EB9F972CD8294400F96D4A /* UIView+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ext.swift"; sourceTree = "<group>"; };
+		C6EB9F9B2CD8D0A800F96D4A /* UIViewController+communication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+communication.swift"; sourceTree = "<group>"; };
+		C6EB9F9D2CD8DBE200F96D4A /* GifService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,7 @@
 				C6401AB32CD1552B00CF666F /* Painter.swift */,
 				C61D7B092CD2CD7800A79DAD /* FramesManager.swift */,
 				C6C299582CD435DF00B10BBC /* AnimationDemoManager.swift */,
+				C6EB9F9D2CD8DBE200F96D4A /* GifService.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 				C6EB9F872CD58A9000F96D4A /* UIColor+init.swift */,
 				C6EB9F812CD5814300F96D4A /* UIImage+colorImage.swift */,
 				C6EB9F972CD8294400F96D4A /* UIView+ext.swift */,
+				C6EB9F9B2CD8D0A800F96D4A /* UIViewController+communication.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -251,6 +257,7 @@
 				C6401AB82CD17E3800CF666F /* Tool.swift in Sources */,
 				C6401A9E2CD153F000CF666F /* AppDelegate.swift in Sources */,
 				C6C299592CD435DF00B10BBC /* AnimationDemoManager.swift in Sources */,
+				C6EB9F9C2CD8D0A800F96D4A /* UIViewController+communication.swift in Sources */,
 				C6EB9F942CD7FF1600F96D4A /* CGPath+boundingBox.swift in Sources */,
 				C6EB9F8E2CD6981E00F96D4A /* ActionsPanelDelegate.swift in Sources */,
 				C61D7B082CD2C85200A79DAD /* FramesTableViewController.swift in Sources */,
@@ -261,6 +268,7 @@
 				C6EB9F922CD7FF0300F96D4A /* CGPath+subpath.swift in Sources */,
 				C6401AB22CD1550900CF666F /* FrameCanvasView.swift in Sources */,
 				C6401AA02CD153F000CF666F /* SceneDelegate.swift in Sources */,
+				C6EB9F9E2CD8DBE200F96D4A /* GifService.swift in Sources */,
 				C61D7B0A2CD2CD7800A79DAD /* FramesManager.swift in Sources */,
 				C6EB9F8C2CD6906B00F96D4A /* ToolsPanelView.swift in Sources */,
 				C66E91152CD3F8FD00B48990 /* Frame.swift in Sources */,

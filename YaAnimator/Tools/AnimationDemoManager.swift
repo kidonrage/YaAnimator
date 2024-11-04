@@ -23,8 +23,9 @@ final class AnimationDemoManager {
         }
     }
     private var animatedFrames: [Frame] = []
-    private var speed: TimeInterval = 1
     private var animationDemoTimer: Timer?
+    
+    var fps: TimeInterval = 1
     
     weak var delegate: AnimationDemoManagerDelegate?
     
@@ -32,7 +33,7 @@ final class AnimationDemoManager {
         displayingFrame = selectedFrame
         animatedFrames = frames
         
-        animationDemoTimer = Timer.scheduledTimer(withTimeInterval: 1 / speed, repeats: true, block: { [weak self] timer in
+        animationDemoTimer = Timer.scheduledTimer(withTimeInterval: 1 / fps, repeats: true, block: { [weak self] timer in
             guard
                 let self,
                 let currentFrameIndex = self.animatedFrames.firstIndex(where: { $0.id == self.displayingFrame?.id })
@@ -50,7 +51,7 @@ final class AnimationDemoManager {
     }
     
     func updateDemoSpeed(speed: TimeInterval) {
-        self.speed = speed
+        self.fps = speed
         
         guard let animationDemoTimer, animationDemoTimer.isValid, let displayingFrame else {
             return

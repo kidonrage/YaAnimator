@@ -30,6 +30,30 @@ class ViewController: UIViewController {
         button.setImage(UIImage(named: "binIcon"), for: .normal)
         return button
     }()
+    private lazy var historyManagementPanel: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [undoButton, redoButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 8
+        return sv
+    }()
+    
+    private lazy var frameManagementPanel: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [deleteFrameButton, addFrameButton, layersButton])
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 8
+        return sv
+    }()
+    
+    private let shareButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
     private let playButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "playIcon"), for: .normal)
@@ -40,30 +64,15 @@ class ViewController: UIViewController {
         button.setImage(UIImage(named: "pauseIcon"), for: .normal)
         return button
     }()
-    private lazy var historyManagementPanel: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [undoButton, redoButton])
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .horizontal
-        sv.alignment = .center
-        sv.spacing = 8
-        return sv
-    }()
-    private lazy var frameManagementPanel: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [deleteFrameButton, addFrameButton, layersButton])
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.axis = .horizontal
-        sv.alignment = .center
-        sv.spacing = 8
-        return sv
-    }()
     private lazy var playPausePanel: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [pauseButton, playButton])
+        let sv = UIStackView(arrangedSubviews: [shareButton, pauseButton, playButton])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .horizontal
         sv.alignment = .center
         sv.spacing = 8
         return sv
     }()
+    
     private lazy var topToolsStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [
             historyManagementPanel, UIView(), frameManagementPanel , UIView(), playPausePanel
@@ -112,6 +121,7 @@ class ViewController: UIViewController {
     
     private let framesManager = FramesManager.shared
     private let animationDemoManager = AnimationDemoManager()
+    private let gifService = GifService()
     
     private weak var delegate: ActionsPanelDelegate? // move to comp
 
@@ -162,6 +172,7 @@ class ViewController: UIViewController {
         ])
         addFrameButton.menu = addFrameMenu
         
+        shareButton.addTarget(self, action: #selector(shareGif), for: .touchUpInside)
         playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
         pauseButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
         
@@ -220,21 +231,32 @@ class ViewController: UIViewController {
         animationDemoManager.stopAnimation()
     }
     
+    @objc private func shareGif() {
+        self.gifService.saveGif(
+            fromFrames: framesManager.frames, 
+            fps: animationDemoManager.fps
+        ) { [weak self] gifURL in
+            guard let gifURL else {
+                self?.showMessageWithOk(title: "Что-то пошло не так", message: nil)
+                return
+            }
+            
+            let activityViewController = UIActivityViewController(
+                activityItems: [gifURL], applicationActivities: nil
+            )
+            self?.present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
     @objc private func handleLayersTapped(_ sender: UIButton) {
         let popoverViewController = FramesTableViewController(framesManager: framesManager)
         popoverViewController.delegate = self
-        
         popoverViewController.modalPresentationStyle = .popover
         
-        // 3. Configure the popover presentation
         let popoverPresentationController = popoverViewController.popoverPresentationController
-        // Set the permitted arrow directions
         popoverPresentationController?.permittedArrowDirections = .up
-        // Set the source rect (the bounds of the button)
         popoverPresentationController?.sourceRect = sender.bounds
-        // Set the source view (the button)
         popoverPresentationController?.sourceView = sender
-        // 4. Set the view controller as the delegate to manage the popover's behavior.
         popoverPresentationController?.delegate = self
         
         self.present(popoverViewController, animated: true)
@@ -347,6 +369,7 @@ extension ViewController: AnimationDemoManagerDelegate {
         toolsPanelView.isHidden = isHidden
         previousFrameImageView.isHidden = isHidden
         
+        shareButton.isHidden = !isHidden
         demoAnimationSpeedContainer.isHidden = !isHidden
     }
 }
